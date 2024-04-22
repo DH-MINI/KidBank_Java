@@ -21,7 +21,17 @@ public abstract class User {
         return "HASHED_" + plainTextPassword; // Placeholder for demonstration
     }
 
+    private String inverseHashPassword(String hashedPassword) {
+        if (hashedPassword.startsWith("HASHED_")) {
+            return hashedPassword.substring("HASHED_".length());
+        } else {
+            return hashedPassword;
+        }
+    }
+
+
     public String getPassword() {
+        password = inverseHashPassword(password);
         return  hashPassword(password);
     }
 

@@ -1,22 +1,60 @@
 package com.group52.bank.authentication;
 
-import com.group52.bank.model.User;
+import com.group52.bank.model.*;
+import com.group52.bank.run_system.Main;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import javax.swing.text.html.HTML;
+import java.io.*;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class AuthenticationSystem {
 
     private Map<String, User> users; // Stores username as key and User object as value
-    private String userDataFilePath; // Path to the file containing user data
+    private String parentCSV;
+    private String childCSV;
 
-    public AuthenticationSystem(String userDataFilePath) {
+    public AuthenticationSystem(String parentCSV, String childCSV) {
         this.users = new HashMap<>();
-        this.userDataFilePath = userDataFilePath;
-        loadUsersFromCSV(userDataFilePath); // Load users from CSV upon initialization
+        this.parentCSV = parentCSV;
+        this.childCSV = childCSV;
+        loadUsersFromCSV(parentCSV);
+        loadUsersFromCSV(childCSV);
+    }
+    public List<Child> loadChildrenData() {
+        List<Child> children = new ArrayList<>();
+        try (BufferedReader br = new BufferedReader(new FileReader(childCSV))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] data = line.split(",");
+                String username = data[0];
+                String password = data[1];
+                children.add(new Child(username, password));
+            }
+        } catch (IOException e) {
+            System.err.println("Error loading children data from CSV: " + e.getMessage());
+        }
+        return children;
+    }
+
+    private void loadUsersFromCSV(String filename) {
+        try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] data = line.split(",");
+                String username = data[0];
+                String password = data[1];
+                if (filename.equals(parentCSV)) {
+                    users.put(username, new Parent(username, password));
+                } else if (filename.equals(childCSV)) {
+                    users.put(username, new Child(username, password));
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Error loading users from CSV: " + e.getMessage());
+        }
     }
 
     public boolean register(User user) {
@@ -24,6 +62,11 @@ public class AuthenticationSystem {
             return false; // Username already exists
         }
         users.put(user.getUsername(), user);
+        try (FileWriter writer = new FileWriter(user instanceof Parent ? parentCSV : childCSV, true)) {
+            writer.write(user.getUsername() + "," + user.getPassword() + "\n");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return true;
     }
 
@@ -32,28 +75,12 @@ public class AuthenticationSystem {
             return null; // Username not found
         }
         User user = users.get(username);
-        if (user.login()) { // Delegate login logic to the specific User subclass
+        String tmpPassword = "HASHED_" + password;
+        if (user.getPassword().equals(tmpPassword)) {
+            System.out.println("\nSuccessfully login! Welcome, " + username + "!");
             return user;
         } else {
             return null; // Invalid password
         }
     }
-
-    // Load user data from CSV file
-    private void loadUsersFromCSV(String filePath) {
-        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                String[] userData = line.split(","); // Assuming CSV format: username,password,userType
-                String username = userData[0];
-                String password = userData[1];
-                String userType = userData[2]; // Assuming the third column denotes the user type
-                // Create User object based on userType (you need to implement this)
-                // Example: if (userType.equals("Parent")) { users.put(username, new Parent(username, password)); }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
 }

@@ -9,13 +9,13 @@ import java.util.Scanner;
 
 public class Main {
 
-    private static final String USER_CSV = "users.csv";
-    private static final String CHILD_CSV = "children.csv"; // Assuming separate CSV files
+    private static final String PARENT_CSV = "src/main/resources/datacsv/parents.csv";
+    private static final String CHILD_CSV = "src/main/resources/datacsv/children.csv";
 
     public static void main(String[] args) throws Exception {
         Scanner scanner = new Scanner(System.in);
-        AuthenticationSystem authSystem = new AuthenticationSystem(USER_CSV); // Load users from CSV
-        List<Child> children = loadChildrenFromCSV(CHILD_CSV); // Optional, load children data
+        AuthenticationSystem authSystem = new AuthenticationSystem(PARENT_CSV, CHILD_CSV);
+        List<Child> children = new ArrayList<>(authSystem.loadChildrenData()); // No need to load children initially
 
         while (true) {
             System.out.println("Welcome to the Children's Banking App!");
@@ -35,7 +35,7 @@ public class Main {
                     User user = authSystem.login(username, password);
                     if (user != null) {
                         if (user instanceof Parent) {
-                            handleParentMenu(scanner, (Parent) user, children);
+                            handleParentMenu(scanner, (Parent) user, children, authSystem);
                         } else if (user instanceof Child) {
                             handleChildMenu(scanner, (Child) user);
                         } else {
@@ -71,7 +71,22 @@ public class Main {
         }
     }
 
-    private static void handleParentMenu(Scanner scanner, Parent parent, List<Child> children) throws Exception {
+    private static void registerChild(Scanner scanner, AuthenticationSystem authSystem) throws Exception {
+        System.out.println("Child Registration:");
+        System.out.print("Username: ");
+        String username = scanner.nextLine();
+        System.out.print("Password: ");
+        String password = scanner.nextLine();
+
+        if (authSystem.register(new Child(username, password))) {
+            System.out.println("Registration successful!");
+        } else {
+            System.out.println("Registration failed. Username already exists.");
+        }
+    }
+
+
+    private static void handleParentMenu(Scanner scanner, Parent parent, List<Child> children, AuthenticationSystem authSystem) throws Exception {
         while (true) {
             System.out.println("\nParent Menu:");
             System.out.println("1. View Children");
@@ -93,14 +108,7 @@ public class Main {
                     }
                     break;
                 case 2:
-                    System.out.println("Create Child Account:");
-                    System.out.print("Username: ");
-                    String childUsername = scanner.nextLine();
-                    System.out.print("Password: ");
-                    String childPassword = scanner.nextLine();
-                    children.add(new Child(childUsername, childPassword));
-                    saveChildrenToCSV(children, CHILD_CSV); // Save new child data
-                    System.out.println("Child account created.");
+                    registerChild(scanner, authSystem);
                     break;
                 case 3:
                     System.out.println("Logging out...");
@@ -136,16 +144,6 @@ public class Main {
                     System.out.println("Invalid choice. Please try again.");
             }
         }
-    }
-
-    // Optional methods for loading/saving children data from/to CSV (replace with your implementation)
-    private static List<Child> loadChildrenFromCSV(String filename) throws Exception {
-        // Implement logic to read child data from CSV and create Child objects
-        return new ArrayList<>(); // Placeholder, replace with actual implementation
-    }
-
-    private static void saveChildrenToCSV(List<Child> children, String filename) throws Exception {
-        // Implement logic to write child data (username, balance, etc.) to CSV
     }
 }
 
