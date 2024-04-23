@@ -2,6 +2,7 @@ package com.group52.bank.run_system;
 
 import com.group52.bank.authentication.AuthenticationSystem;
 import com.group52.bank.model.*;
+import com.group52.bank.task.TaskSystem;
 import com.group52.bank.transaction.TransactionSystem;
 
 import java.time.LocalDateTime;
@@ -14,13 +15,15 @@ public class Main {
     private static final String PARENT_CSV = "src/main/resources/datacsv/parents.csv";
     private static final String CHILD_CSV = "src/main/resources/datacsv/children.csv";
     private static final String TRANSACTION_HISTORY_CSV = "src/main/resources/datacsv/transactionHistory.csv";
+    private static final String TASK_CSV = "src/main/resources/datacsv/taskHistory.csv";
 
     public static void main(String[] args) throws Exception {
         Scanner scanner = new Scanner(System.in);
         AuthenticationSystem authSystem = new AuthenticationSystem(PARENT_CSV, CHILD_CSV);
         TransactionSystem transSystem = new TransactionSystem(TRANSACTION_HISTORY_CSV,CHILD_CSV);
+        TaskSystem taskSystem = new TaskSystem(TASK_CSV,CHILD_CSV);
 
-        List<Child> children = new ArrayList<>(authSystem.loadChildrenData()); // No need to load children initially
+        List<Child> children = new ArrayList<>(authSystem.loadChildrenData());
 
 
         while (true) {
@@ -41,7 +44,7 @@ public class Main {
                     User user = authSystem.login(username, password);
                     if (user != null) {
                         if (user instanceof Parent) {
-                            handleParentMenu(scanner, (Parent) user, children, authSystem, transSystem);
+                            handleParentMenu(scanner, (Parent) user, children, authSystem, transSystem, taskSystem);
                         } else if (user instanceof Child) {
                             handleChildMenu(scanner, authSystem.findChildByUsername(user.getUsername()), transSystem);
                         } else {
@@ -91,7 +94,7 @@ public class Main {
         }
     }
 
-    private static void handleParentMenu(Scanner scanner, Parent parent, List<Child> children, AuthenticationSystem authSystem, TransactionSystem transSystem) throws Exception {
+    private static void handleParentMenu(Scanner scanner, Parent parent, List<Child> children, AuthenticationSystem authSystem, TransactionSystem transSystem, TaskSystem taskSystem) throws Exception {
         while (true) {
             System.out.println("\nParent Menu:");
             System.out.println("1. View Children");
@@ -123,6 +126,11 @@ public class Main {
                 case 3:
                     handleTransactionManagement(scanner, transSystem);
                     break;
+
+                case 4:
+                    handleTaskManagementSubMenu(scanner, taskSystem);
+                    break;
+
 
                 case 5:
                     System.out.println("Logging out...");
@@ -179,6 +187,38 @@ public class Main {
     }
 
 
+    private static void handleTaskManagementSubMenu(Scanner scanner, TaskSystem taskSystem) {
+        while (true) {
+            System.out.println("\nTask Management Submenu:");
+            System.out.println("1. Publish Task");
+            System.out.println("2. Manage Tasks");
+            System.out.println("3. View Task History");
+            System.out.println("4. Back to Parent Menu");
+
+            int choice = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (choice) {
+                case 1:
+                    // Publish Task
+                    taskSystem.pushTask(scanner);
+                    // Implement publish task functionality
+                    break;
+                case 2:
+                    // Manage Tasks
+                    // Implement manage tasks functionality
+                    break;
+                case 3:
+                    taskSystem.viewTaskHistory();
+                    break;
+                case 4:
+                    System.out.println("Returning to Parent Menu...");
+                    return;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        }
+    }
     private static void handleChildMenu(Scanner scanner, Child child, TransactionSystem transSystem) {
         while (true) {
             System.out.println("\nChild Menu:");

@@ -36,7 +36,6 @@ public class TransactionSystem {
         }
     }
 
-
     public boolean viewUncheckedTransactionHistory() {
         System.out.println("Unchecked Transaction History:");
         List<Transaction> uncheckedTransactions = new ArrayList<>();
