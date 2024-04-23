@@ -206,8 +206,20 @@ public class Main {
                     break;
                 case 2:
                     // Manage Tasks
-                    // Implement manage tasks functionality
+                    taskSystem.viewTaskHistory();
+                    System.out.println("\n");
+                    System.out.println("Enter task ID to change state:");
+                    String taskId = scanner.nextLine();
+                    System.out.println("Enter new state (Complete/Delete):");
+                    String newState = scanner.nextLine();
+                    if (taskSystem.changeTaskState(taskId, newState)) {
+                        System.out.println("Task state changed successfully.");
+                    } else {
+                        System.out.println("Failed to change task state. Task ID not found.");
+                    }
                     break;
+
+
                 case 3:
                     taskSystem.viewTaskHistory();
                     break;
@@ -219,13 +231,13 @@ public class Main {
             }
         }
     }
-    private static void handleChildMenu(Scanner scanner, Child child, TransactionSystem transSystem) {
+    private static void handleChildMenu(Scanner scanner, Child child, TransactionSystem transSystem, TaskSystem taskSystem) {
         while (true) {
             System.out.println("\nChild Menu:");
             System.out.println("1. View Balance");
             System.out.println("2. View Transaction history");
             System.out.println("3. Deposit and withdraw");
-            System.out.println("4. View Tasks");
+            System.out.println("4. Tasks Management");
             System.out.println("5. Logout");
 
             int choice = scanner.nextInt();
@@ -272,13 +284,59 @@ public class Main {
                     break;
 
                 case 4:
-                    // View Tasks (if implemented)
-                    System.out.println("Task functionality not yet implemented.");
+                    handleChildTaskMenu(scanner, child, taskSystem);
                     break;
 
                 case 5:
                     System.out.println("Logging out...");
                     transSystem.saveTransactionHistory();
+                    return;
+
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        }
+    }
+    private static void handleChildTaskMenu(Scanner scanner, Child child, TaskSystem taskSystem) {
+        while (true) {
+            System.out.println("\nTask Management:");
+            System.out.println("1. View Tasks");
+            System.out.println("2. Receive Task");
+            System.out.println("3. Confirm Task Completion");
+            System.out.println("4. Back");
+
+            int choice = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (choice) {
+                case 1:
+                    taskSystem.viewTaskHistory();
+                    break;
+
+                case 2:
+                    System.out.println("Enter task ID to receive:");
+                    String receiveTaskId = scanner.nextLine();
+                    if (taskSystem.receiveTask(receiveTaskId, child.getUsername())) {
+                        System.out.println("Task received successfully.");
+                    } else {
+                        System.out.println("Failed to receive task. Task ID not found.");
+                    }
+                    break;
+
+
+                case 3:
+                    taskSystem.viewTaskHistory();
+                    System.out.println("\n");
+                    System.out.println("Enter task ID to change state:");
+                    String taskId = scanner.nextLine();
+                    if (taskSystem.changeTaskState(taskId, "ChildComplete")) {
+                        System.out.println("Task confirm complete successfully.");
+                    } else {
+                        System.out.println("Failed to change task state. Task ID not found.");
+                    }
+                    break;
+
+                case 4:
                     return;
 
                 default:

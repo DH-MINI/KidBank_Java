@@ -32,7 +32,7 @@ public class Task {
         }
     }
 
-    public  void doubleCheck() {
+    public void doubleCheck() {
         if (this.state.equals("ChildConfirmed")){
             this.state = "Complete";
         }
@@ -53,5 +53,17 @@ public class Task {
 
     public LocalDate getDeadline() {
         return this.deadline;
+    }
+
+    public String getState() {
+        return this.state;
+    }
+
+    public String getReceivedBy() {
+        return receivedBy;
+    }
+
+    public void setReceivedBy(String childUsername) {
+        this.receivedBy = childUsername;
     }
 }
