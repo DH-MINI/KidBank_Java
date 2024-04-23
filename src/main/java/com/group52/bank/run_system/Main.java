@@ -18,7 +18,7 @@ public class Main {
     public static void main(String[] args) throws Exception {
         Scanner scanner = new Scanner(System.in);
         AuthenticationSystem authSystem = new AuthenticationSystem(PARENT_CSV, CHILD_CSV);
-        TransactionSystem transSystem = new TransactionSystem(TRANSACTION_HISTORY_CSV);
+        TransactionSystem transSystem = new TransactionSystem(TRANSACTION_HISTORY_CSV,CHILD_CSV);
 
         List<Child> children = new ArrayList<>(authSystem.loadChildrenData()); // No need to load children initially
 
@@ -151,17 +151,21 @@ public class Main {
                     break;
 
                 case 2:
-                    System.out.println("Enter transaction ID to change state:");
-                    String transactionId = scanner.nextLine();
-                    System.out.println("Enter 'C' to confirm or 'R' to reject:");
-                    String action = scanner.nextLine().toUpperCase();
-                    action = action.equals("C") ? "Confirmed" : action;
-                    action = action.equals("R") ? "Rejected" : action;
-                    if (transSystem.changeTransactionState(transactionId, action)) {
-                        System.out.println("Transaction state changed successfully.");
-                    } else {
-                        System.out.println("Failed to change transaction state. Transaction ID not found.");
+                    if (transSystem.viewUncheckedTransactionHistory()){
+                        System.out.println("Enter transaction ID to change state:");
+                        String transactionId = scanner.nextLine();
+                        System.out.println("Enter 'C' to confirm or 'R' to reject:");
+                        String action = scanner.nextLine().toUpperCase();
+                        action = action.equals("C") ? "Confirmed" : action;
+                        action = action.equals("R") ? "Rejected" : action;
+                        if (transSystem.changeTransactionState(transactionId, action)) {
+                            System.out.println("Transaction state changed successfully.");
+                        } else {
+                            System.out.println("Failed to change transaction state. Transaction ID not found.");
+                        }
                     }
+                    else
+                        break;
                     break;
 
                 case 3:
@@ -209,7 +213,7 @@ public class Main {
 
                     if (transactionType.equals("D")) {
                         // Deposit
-                        Transaction depositTransaction = new Transaction(transactionId, amount, LocalDateTime.now(), "Deposit", transactionDestination, transactionSource, transactionState);
+                        Transaction depositTransaction = new Transaction(transactionId, amount, LocalDateTime.now(), "Deposit", transactionSource, transactionDestination, transactionState);
                         transSystem.addTransaction(depositTransaction);
                         System.out.println("Send deposit request successful.");
                     } else if (transactionType.equals("W")) {
@@ -217,7 +221,7 @@ public class Main {
                         if (amount > child.viewBalance()) {
                             System.out.println("Insufficient funds for withdrawal.");
                         } else {
-                            Transaction withdrawalTransaction = new Transaction(transactionId, amount, LocalDateTime.now(), "Withdrawal", transactionSource, transactionDestination, transactionState);
+                            Transaction withdrawalTransaction = new Transaction(transactionId, amount, LocalDateTime.now(), "Withdrawal", transactionDestination, transactionSource, transactionState);
                             transSystem.addTransaction(withdrawalTransaction);
                             System.out.println("Send withdrawal request successful.");
                         }
