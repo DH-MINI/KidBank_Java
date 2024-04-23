@@ -214,6 +214,7 @@ public class Main {
                     String newState = scanner.nextLine();
                     if (taskSystem.changeTaskState(taskId, newState)) {
                         System.out.println("Task state changed successfully.");
+                        taskSystem.saveTaskHistory();
                     } else {
                         System.out.println("Failed to change task state. Task ID not found.");
                     }
@@ -330,6 +331,7 @@ public class Main {
                     System.out.println("Enter task ID to change state:");
                     String taskId = scanner.nextLine();
                     if (taskSystem.changeTaskState(taskId, "ChildComplete")) {
+                        taskSystem.saveTaskHistory();
                         System.out.println("Task confirm complete successfully.");
                     } else {
                         System.out.println("Failed to change task state. Task ID not found.");
