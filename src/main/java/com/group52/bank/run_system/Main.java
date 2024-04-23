@@ -318,6 +318,7 @@ public class Main {
                     System.out.println("Enter task ID to receive:");
                     String receiveTaskId = scanner.nextLine();
                     if (taskSystem.receiveTask(receiveTaskId, child.getUsername())) {
+                        taskSystem.saveTaskHistory();
                         System.out.println("Task received successfully.");
                     } else {
                         System.out.println("Failed to receive task. Task ID not found.");

@@ -97,15 +97,22 @@ public class TaskSystem {
     }
 
     public boolean receiveTask(String taskId, String childUsername) {
+        int count = 0;
         for (Task task : taskHistory) {
-            if (task.getTaskId().equals(taskId)) {
+            if (task.getTaskId().contains(taskId)) {
+                count++;
                 task.setReceivedBy(childUsername);
-                return true;
             }
         }
-        System.out.println("Task ID not found.");
-        return false;
+        if (count == 1) {
+            System.out.println(count + " task(s) received successfully.");
+            return true;
+        } else {
+            System.out.println("Task ID not found or multiple Task ID found.");
+            return false;
+        }
     }
+
 
 
     private List<Task> loadTaskHistory() {
