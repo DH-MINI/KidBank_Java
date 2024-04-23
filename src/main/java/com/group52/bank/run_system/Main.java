@@ -2,7 +2,9 @@ package com.group52.bank.run_system;
 
 import com.group52.bank.authentication.AuthenticationSystem;
 import com.group52.bank.model.*;
+import com.group52.bank.transaction.TransactionSystem;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -11,11 +13,15 @@ public class Main {
 
     private static final String PARENT_CSV = "src/main/resources/datacsv/parents.csv";
     private static final String CHILD_CSV = "src/main/resources/datacsv/children.csv";
+    private static final String TRANSACTION_HISTORY_CSV = "src/main/resources/datacsv/transactionHistory.csv";
 
     public static void main(String[] args) throws Exception {
         Scanner scanner = new Scanner(System.in);
         AuthenticationSystem authSystem = new AuthenticationSystem(PARENT_CSV, CHILD_CSV);
+        TransactionSystem transSystem = new TransactionSystem(TRANSACTION_HISTORY_CSV);
+
         List<Child> children = new ArrayList<>(authSystem.loadChildrenData()); // No need to load children initially
+
 
         while (true) {
             System.out.println("Welcome to the Children's Banking App!");
@@ -35,9 +41,9 @@ public class Main {
                     User user = authSystem.login(username, password);
                     if (user != null) {
                         if (user instanceof Parent) {
-                            handleParentMenu(scanner, (Parent) user, children, authSystem);
+                            handleParentMenu(scanner, (Parent) user, children, authSystem, transSystem);
                         } else if (user instanceof Child) {
-                            handleChildMenu(scanner, authSystem.findChildByUsername(user.getUsername()));
+                            handleChildMenu(scanner, authSystem.findChildByUsername(user.getUsername()), transSystem);
                         } else {
                             System.out.println("Invalid user type detected.");
                         }
@@ -86,7 +92,7 @@ public class Main {
     }
 
 
-    private static void handleParentMenu(Scanner scanner, Parent parent, List<Child> children, AuthenticationSystem authSystem) throws Exception {
+    private static void handleParentMenu(Scanner scanner, Parent parent, List<Child> children, AuthenticationSystem authSystem, TransactionSystem transSystem) throws Exception {
         while (true) {
             System.out.println("\nParent Menu:");
             System.out.println("1. View Children");
@@ -121,12 +127,14 @@ public class Main {
         }
     }
 
-    private static void handleChildMenu(Scanner scanner, Child child) {
+    private static void handleChildMenu(Scanner scanner, Child child, TransactionSystem transSystem) {
         while (true) {
             System.out.println("\nChild Menu:");
             System.out.println("1. View Balance");
-            System.out.println("2. View Tasks"); // Optional, if tasks are implemented
-            System.out.println("3. Logout");
+            System.out.println("2. View Transaction history");
+            System.out.println("3. Deposit and withdraw");
+            System.out.println("4. View Tasks");
+            System.out.println("5. Logout");
 
             int choice = scanner.nextInt();
             scanner.nextLine();
@@ -135,13 +143,51 @@ public class Main {
                 case 1:
                     System.out.println("Your balance: $" + child.viewBalance());
                     break;
+
                 case 2:
-                    // Implement logic to display child's tasks (optional)
+                    transSystem.viewTransactionHistory();
+                    break;
+
+                case 3:
+                    System.out.println("Enter transaction amount:");
+                    double amount = scanner.nextDouble();
+                    scanner.nextLine();
+                    System.out.println("Enter 'D' for Deposit or 'W' for Withdrawal:");
+                    String transactionType = scanner.nextLine().toUpperCase();
+                    String transactionId = "TRANS_" + System.currentTimeMillis();
+                    String transactionSource = "Bank";
+                    String transactionDestination = child.getUsername();
+                    String transactionState = "Unchecked";
+
+                    if (transactionType.equals("D")) {
+                        // Deposit
+                        Transaction depositTransaction = new Transaction(transactionId, amount, LocalDateTime.now(), "Deposit", transactionDestination, transactionSource, transactionState);
+                        transSystem.addTransaction(depositTransaction);
+                        System.out.println("Send deposit request successful.");
+                    } else if (transactionType.equals("W")) {
+                        // Withdraw
+                        if (amount > child.viewBalance()) {
+                            System.out.println("Insufficient funds for withdrawal.");
+                        } else {
+                            Transaction withdrawalTransaction = new Transaction(transactionId, amount, LocalDateTime.now(), "Withdrawal", transactionSource, transactionDestination, transactionState);
+                            transSystem.addTransaction(withdrawalTransaction);
+                            System.out.println("Send withdrawal request successful.");
+                        }
+                    } else {
+                        System.out.println("Invalid transaction type. Please enter 'D' for Deposit or 'W' for Withdrawal.");
+                    }
+                    break;
+
+                case 4:
+                    // View Tasks (if implemented)
                     System.out.println("Task functionality not yet implemented.");
                     break;
-                case 3:
+
+                case 5:
                     System.out.println("Logging out...");
+                    transSystem.saveTransactionHistory();
                     return;
+
                 default:
                     System.out.println("Invalid choice. Please try again.");
             }

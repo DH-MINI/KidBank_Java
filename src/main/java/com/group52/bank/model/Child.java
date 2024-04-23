@@ -39,19 +39,6 @@ List<Task> taskList;
         return balance;
     }
 
-    public void deposit(double amount) {
-        this.balance += amount;
-        // Consider adding a Transaction object for history
-    }
-
-//    public void withdraw(double amount) throws InsufficientFundsException {
-//        if (amount > balance) {
-//            throw new InsufficientFundsException("Insufficient funds for withdrawal");
-//        }
-//        this.balance -= amount;
-//        // Consider adding a Transaction object for history
-//    }
-
     @Override
     public boolean login() {
         // Implement login logic using username and password
