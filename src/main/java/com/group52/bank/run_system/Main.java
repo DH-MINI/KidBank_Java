@@ -91,13 +91,14 @@ public class Main {
         }
     }
 
-
     private static void handleParentMenu(Scanner scanner, Parent parent, List<Child> children, AuthenticationSystem authSystem, TransactionSystem transSystem) throws Exception {
         while (true) {
             System.out.println("\nParent Menu:");
             System.out.println("1. View Children");
             System.out.println("2. Create Child Account");
-            System.out.println("3. Logout");
+            System.out.println("3. Transaction Management");
+            System.out.println("4. Task Management");
+            System.out.println("5. Logout");
 
             int choice = scanner.nextInt();
             scanner.nextLine();
@@ -118,14 +119,61 @@ public class Main {
                 case 2:
                     registerChild(scanner, authSystem);
                     break;
+
                 case 3:
+                    handleTransactionManagement(scanner, transSystem);
+                    break;
+
+                case 5:
                     System.out.println("Logging out...");
+                    transSystem.saveTransactionHistory();
                     return;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+
+            }
+        }
+    }
+
+    private static void handleTransactionManagement(Scanner scanner, TransactionSystem transSystem) {
+        while (true) {
+            System.out.println("\nTransaction Management:");
+            System.out.println("1. View Transaction History");
+            System.out.println("2. Change Transaction State");
+            System.out.println("3. Back");
+
+            int choice = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (choice) {
+                case 1:
+                    transSystem.viewTransactionHistory();
+                    break;
+
+                case 2:
+                    System.out.println("Enter transaction ID to change state:");
+                    String transactionId = scanner.nextLine();
+                    System.out.println("Enter 'C' to confirm or 'R' to reject:");
+                    String action = scanner.nextLine().toUpperCase();
+                    action = action.equals("C") ? "Confirmed" : action;
+                    action = action.equals("R") ? "Rejected" : action;
+                    if (transSystem.changeTransactionState(transactionId, action)) {
+                        System.out.println("Transaction state changed successfully.");
+                    } else {
+                        System.out.println("Failed to change transaction state. Transaction ID not found.");
+                    }
+                    break;
+
+                case 3:
+                    transSystem.saveTransactionHistory();
+                    return;
+
                 default:
                     System.out.println("Invalid choice. Please try again.");
             }
         }
     }
+
 
     private static void handleChildMenu(Scanner scanner, Child child, TransactionSystem transSystem) {
         while (true) {
@@ -176,6 +224,7 @@ public class Main {
                     } else {
                         System.out.println("Invalid transaction type. Please enter 'D' for Deposit or 'W' for Withdrawal.");
                     }
+                    transSystem.saveTransactionHistory();
                     break;
 
                 case 4:

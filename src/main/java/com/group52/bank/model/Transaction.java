@@ -64,10 +64,24 @@ public class Transaction {
                 ", type='" + type + '\'' +
                 ", source='" + source + '\'' +
                 ", destination='" + destination + '\'' +
+                ", state=" + state + '\'' +
                 '}';
     }
 
     public String getState() {
         return state;
     }
+
+    public void confirmRequest() {
+        if (this.state.equals("Unchecked")) {
+            this.state = "Confirmed";
+        }
+    }
+
+    public void rejectRequest() {
+        if (this.state.equals("Unchecked")) {
+            this.state = "Rejected";
+        }
+    }
+
 }
