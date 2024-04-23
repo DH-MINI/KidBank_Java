@@ -46,7 +46,7 @@ public class Main {
                         if (user instanceof Parent) {
                             handleParentMenu(scanner, (Parent) user, children, authSystem, transSystem, taskSystem);
                         } else if (user instanceof Child) {
-                            handleChildMenu(scanner, authSystem.findChildByUsername(user.getUsername()), transSystem);
+                            handleChildMenu(scanner, authSystem.findChildByUsername(user.getUsername()), transSystem, taskSystem);
                         } else {
                             System.out.println("Invalid user type detected.");
                         }
