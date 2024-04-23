@@ -10,6 +10,14 @@ public class Child extends User {
 List<Task> taskList;
     double balance;
 
+    public Child(String username, String password, double balance) {
+        super("default","default_password");
+        this.username = username;
+        this.password = password;
+        this.taskList = new ArrayList<>();
+        this.balance = balance;
+    }
+
     public Child(String username, String password) {
         super("default","default_password");
         this.username = username;
@@ -17,7 +25,6 @@ List<Task> taskList;
         this.taskList = new ArrayList<>();
         this.balance = 0.0;
     }
-
 
 
     public void selectTask(String taskId) {

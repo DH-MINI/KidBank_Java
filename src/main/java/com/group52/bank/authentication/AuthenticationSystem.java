@@ -31,7 +31,8 @@ public class AuthenticationSystem {
                 String[] data = line.split(",");
                 String username = data[0];
                 String password = data[1];
-                children.add(new Child(username, password));
+                String balance = data[2];
+                children.add(new Child(username, password, Double.parseDouble(balance)));
             }
         } catch (IOException e) {
             System.err.println("Error loading children data from CSV: " + e.getMessage());
@@ -57,13 +58,38 @@ public class AuthenticationSystem {
         }
     }
 
+    public Child findChildByUsername(String username) {
+        try (BufferedReader br = new BufferedReader(new FileReader(childCSV))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] data = line.split(",");
+                if (data.length >= 2 && data[0].equals(username)) {
+                    String password = data[1];
+                    double balance = 0.0; // Default balance if not available
+                    if (data.length >= 3) {
+                        balance = Double.parseDouble(data[2]);
+                    }
+                    return new Child(username, password, balance);
+                }
+            }
+        } catch (IOException | NumberFormatException e) {
+            System.err.println("Error finding child by username: " + e.getMessage());
+        }
+        return null; // Child not found
+    }
+
+
     public boolean register(User user) {
         if (users.containsKey(user.getUsername())) {
             return false; // Username already exists
         }
         users.put(user.getUsername(), user);
         try (FileWriter writer = new FileWriter(user instanceof Parent ? parentCSV : childCSV, true)) {
-            writer.write(user.getUsername() + "," + user.getPassword() + "\n");
+            writer.write(user.getUsername() + "," + user.getPassword());
+            if (user instanceof Child) {
+                writer.write(","+ 0.0);
+            }
+            writer.write("\n");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -75,8 +101,7 @@ public class AuthenticationSystem {
             return null; // Username not found
         }
         User user = users.get(username);
-        String tmpPassword = "HASHED_" + password;
-        if (user.getPassword().equals(tmpPassword)) {
+        if (user.getPassword().equals("HASHED_" + password)) {
             System.out.println("\nSuccessfully login! Welcome, " + username + "!");
             return user;
         } else {

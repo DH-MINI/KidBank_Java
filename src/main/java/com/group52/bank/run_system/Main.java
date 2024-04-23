@@ -37,7 +37,7 @@ public class Main {
                         if (user instanceof Parent) {
                             handleParentMenu(scanner, (Parent) user, children, authSystem);
                         } else if (user instanceof Child) {
-                            handleChildMenu(scanner, (Child) user);
+                            handleChildMenu(scanner, authSystem.findChildByUsername(user.getUsername()));
                         } else {
                             System.out.println("Invalid user type detected.");
                         }
@@ -96,8 +96,10 @@ public class Main {
             int choice = scanner.nextInt();
             scanner.nextLine();
 
+
             switch (choice) {
                 case 1:
+                    children = new ArrayList<>(authSystem.loadChildrenData());
                     if (children.isEmpty()) {
                         System.out.println("No children registered yet.");
                     } else {
