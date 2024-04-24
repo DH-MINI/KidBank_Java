@@ -111,6 +111,7 @@ public class TransactionSystem {
                     System.out.println("Invalid choice. Please try again.");
                     return false;
                 }
+                saveTransactionHistory();
             }
         }
         if (count == 0) {
@@ -137,7 +138,6 @@ public class TransactionSystem {
                     lines.add(line);
                 }
             }
-            saveTransactionHistory();
         } catch (IOException e) {
             System.err.println("Error updating child balance: " + e.getMessage());
         }
