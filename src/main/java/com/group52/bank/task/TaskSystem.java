@@ -1,6 +1,7 @@
 package com.group52.bank.task;
 
 import com.group52.bank.model.Task;
+import com.group52.bank.model.Transaction;
 
 import java.io.*;
 import java.time.LocalDate;
@@ -123,5 +124,9 @@ public class TaskSystem {
                 task.getDeadline().toString(),
                 task.getState(),
                 task.getReceivedBy());
+    }
+
+    public List<Task> getTaskHistory() {
+        return taskHistory;
     }
 }

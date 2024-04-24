@@ -28,7 +28,7 @@ public class TransactionSystem {
     public void viewTransactionHistory() {
         System.out.println("Transaction History:");
         for (Transaction transaction : transactionHistory) {
-            System.out.println(transaction);
+            System.out.println(transaction.toString());
         }
     }
 
@@ -96,7 +96,7 @@ public class TransactionSystem {
     public boolean changeTransactionState(String transactionId, String newState) {
         int count = 0;
         for (Transaction transaction : transactionHistory) {
-            if (transaction.getTransactionId().equals(transactionId)) {
+            if (transaction.getTransactionId().contains(transactionId)) {
                 count++;
                 if (count > 1) {
                     System.out.println("Multiple transactions found with the given ID. Please provide a more specific ID.");
@@ -149,5 +149,9 @@ public class TransactionSystem {
         } catch (IOException e) {
             System.err.println("Error writing updated child balance to CSV: " + e.getMessage());
         }
+    }
+
+    public List<Transaction> getTransactionHistory() {
+        return transactionHistory;
     }
 }
