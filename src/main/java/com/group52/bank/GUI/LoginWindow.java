@@ -1,5 +1,6 @@
 package com.group52.bank.GUI;
 
+import com.group52.bank.authentication.AuthenticationSystem;
 import com.group52.bank.model.Child;
 import com.group52.bank.model.Parent;
 import com.group52.bank.model.User;
@@ -82,7 +83,7 @@ public class LoginWindow extends JFrame {
             if (user instanceof Parent) {
                 new ParentMenuWindow(app, (Parent) user, app.transSystem, app.taskSystem).setVisible(true);
             } else if (user instanceof Child) {
-                // new ChildMenuWindow(app, user, app.transSystem, app.taskSystem).setVisible(true);
+                new ChildMenuWindow(app, app.authSystem.findChildByUsername(username), app.transSystem, app.taskSystem).setVisible(true);
             }
             this.setVisible(false);
         } else {
@@ -92,7 +93,7 @@ public class LoginWindow extends JFrame {
     }
 
     private void handleRegisterParent() {
-        // Open a separate window for parent registration (optional)
-        // ...
+        new RegisterParentWindow(app.authSystem).setVisible(true);
     }
+
 }

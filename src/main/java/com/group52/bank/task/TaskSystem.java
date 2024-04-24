@@ -46,7 +46,7 @@ public class TaskSystem {
     public boolean changeTaskState(String taskId, String newState) {
         int count = 0;
         for (Task task : taskHistory) {
-            if (task.getTaskId().equals(taskId)) {
+            if (task.getTaskId().contains(taskId)) {
                 count++;
                 if (count > 1) {
                     System.out.println("Multiple tasks found with the given ID. Please provide a more specific ID.");
@@ -72,7 +72,7 @@ public class TaskSystem {
     public boolean receiveTask(String taskId, String childUsername) {
         int count = 0;
         for (Task task : taskHistory) {
-            if (task.getTaskId().equals(taskId)) {
+            if (task.getTaskId().contains(taskId)) {
                 count++;
                 task.setReceivedBy(childUsername);
             }
