@@ -137,7 +137,6 @@ public class TransactionSystem {
                     lines.add(line);
                 }
             }
-            saveTransactionHistory();
         } catch (IOException e) {
             System.err.println("Error updating child balance: " + e.getMessage());
         }
