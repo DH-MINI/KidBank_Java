@@ -24,37 +24,23 @@ public class Transaction {
     }
 
     // Getter methods
-    public String getTransactionId() {
-        return transactionId;
-    }
-
+    public String getTransactionId() { return transactionId; }
     public double getAmount() {
         return amount;
     }
-
     public LocalDateTime getTimestamp() {
         return timestamp;
     }
-
     public String getType() {
         return type;
     }
-
     public String getSource() {
         return source;
     }
-
     public String getDestination() {
         return destination;
     }
-
-    // Simulate transaction execution (may not be necessary)
-    public void execute() {
-        // You can add logic here to actually execute the transaction
-        System.out.println("Transaction " + transactionId + " executed.");
-    }
-
-    // toString method to represent Transaction object as String
+    public String getState() { return state; }
     @Override
     public String toString() {
         return "Transaction{" +
@@ -66,10 +52,6 @@ public class Transaction {
                 ", destination='" + destination + '\'' +
                 ", state=" + state + '\'' +
                 '}';
-    }
-
-    public String getState() {
-        return state;
     }
 
     public void confirmRequest() {

@@ -14,8 +14,6 @@ public abstract class User {
         return username;
     }
 
-    public abstract boolean login(); // Implemented in subclasses
-
     private String hashPassword(String plainTextPassword) {
         // Implement a secure password hashing algorithm (replace with actual implementation)
         return "HASHED_" + plainTextPassword; // Placeholder for demonstration
@@ -35,5 +33,4 @@ public abstract class User {
         return  hashPassword(password);
     }
 
-    // Getters and setters for username (optional)
 }

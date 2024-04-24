@@ -21,6 +21,15 @@ public class Task {
         this.receivedBy = "Unreceived";
     }
 
+    public Task(String taskId, String description, double reward, LocalDate deadline, String state, String receivedBy) {
+        this.taskId = taskId;
+        this.description = description;
+        this.reward = reward;
+        this.deadline = deadline;
+        this.state = state;
+        this.receivedBy = receivedBy;
+    }
+
     public String getDetails() {
         String deadlineString = deadline.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         return "Task ID: " + taskId + ", Description: " + description + ", Received by: " + receivedBy +", Reward: $" + reward + ", Deadline: " + deadlineString + ", Status: " + state;

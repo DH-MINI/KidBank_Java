@@ -5,7 +5,9 @@ import com.group52.bank.model.*;
 import com.group52.bank.task.TaskSystem;
 import com.group52.bank.transaction.TransactionSystem;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -115,7 +117,7 @@ public class Main {
                     } else {
                         for (int i = 0; i < children.size(); i++) {
                             Child child = children.get(i);
-                            System.out.println((i + 1) + ". " + child.getUsername() + " (Balance: $" + child.viewBalance() + ")");
+                            System.out.println((i + 1) + ". " + child.getUsername() + " (Balance: $" + child.getBalance() + ")");
                         }
                     }
                     break;
@@ -201,9 +203,23 @@ public class Main {
             switch (choice) {
                 case 1:
                     // Publish Task
-                    taskSystem.pushTask(scanner);
-                    // Implement publish task functionality
+                    System.out.println("Publish Task:");
+                    System.out.print("Enter Task Description: ");
+                    String description = scanner.nextLine();
+                    System.out.print("Enter Reward: $");
+                    double reward = scanner.nextDouble();
+                    scanner.nextLine(); // Consume newline
+                    System.out.print("Enter Deadline (yyyy-MM-dd): ");
+                    LocalDate deadline;
+                    try {
+                        deadline = LocalDate.parse(scanner.nextLine());
+                    } catch (DateTimeParseException e) {
+                        System.out.println("Invalid date format. Please enter date in yyyy-MM-dd format.");
+                        break;
+                    }
+                    taskSystem.pushTask(description, reward, deadline);
                     break;
+
                 case 2:
                     // Manage Tasks
                     taskSystem.viewTaskHistory();
@@ -246,7 +262,7 @@ public class Main {
 
             switch (choice) {
                 case 1:
-                    System.out.println("Your balance: $" + child.viewBalance());
+                    System.out.println("Your balance: $" + child.getBalance());
                     break;
 
                 case 2:
@@ -271,7 +287,7 @@ public class Main {
                         System.out.println("Send deposit request successful.");
                     } else if (transactionType.equals("W")) {
                         // Withdraw
-                        if (amount > child.viewBalance()) {
+                        if (amount > child.getBalance()) {
                             System.out.println("Insufficient funds for withdrawal.");
                         } else {
                             Transaction withdrawalTransaction = new Transaction(transactionId, amount, LocalDateTime.now(), "Withdrawal", transactionDestination, transactionSource, transactionState);
