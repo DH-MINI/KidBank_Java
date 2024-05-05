@@ -1,7 +1,6 @@
 package com.group52.bank.GUI;
 
 import com.group52.bank.model.Child;
-import com.group52.bank.model.TermDeposit;
 import com.group52.bank.model.Transaction;
 import com.group52.bank.transaction.TransactionSystem;
 
@@ -20,7 +19,6 @@ public class DepositWithdrawWindow extends JFrame {
     private JLabel amountLabel;
     private JTextField amountField;
     private JRadioButton depositRadioButton;
-    private JRadioButton TDRadioButton;
     private JRadioButton withdrawRadioButton;
     private JButton submitButton;
     private JButton cancelButton;
@@ -35,7 +33,6 @@ public class DepositWithdrawWindow extends JFrame {
         amountLabel = new JLabel("Amount:");
         amountField = new JTextField(10);
         depositRadioButton = new JRadioButton("Deposit");
-        TDRadioButton = new JRadioButton("Term Deposit");
         withdrawRadioButton = new JRadioButton("Withdraw");
         submitButton = new JButton("Submit");
         cancelButton = new JButton("Cancel");
@@ -46,7 +43,6 @@ public class DepositWithdrawWindow extends JFrame {
         // Create button group for radio buttons
         ButtonGroup buttonGroup = new ButtonGroup();
         buttonGroup.add(depositRadioButton);
-        buttonGroup.add(TDRadioButton);
         buttonGroup.add(withdrawRadioButton);
 
         // Add action listeners for buttons
@@ -54,20 +50,14 @@ public class DepositWithdrawWindow extends JFrame {
         cancelButton.addActionListener(e -> this.dispose()); // Close window on cancel
 
         // Set layout manager for the frame
-        setLayout(new GridLayout(4, 3));
+        setLayout(new GridLayout(4, 2));
 
         // Add Swing components to the frame
         add(titleLabel);
         add(new JLabel()); // Placeholder
-        add(new JLabel()); // Placeholder
-
         add(amountLabel);
         add(amountField);
-
-        add(new JLabel()); // Placeholder
-
         add(depositRadioButton);
-        add(TDRadioButton);
         add(withdrawRadioButton);
         add(submitButton);
         add(cancelButton);
@@ -98,8 +88,6 @@ public class DepositWithdrawWindow extends JFrame {
             Transaction depositTransaction = new Transaction(transactionId, amount, LocalDateTime.now(), "Deposit", transactionSource, transactionDestination, transactionState);
             transSystem.addTransaction(depositTransaction);
             JOptionPane.showMessageDialog(this, "Deposit request sent successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
-        } else if (TDRadioButton.isSelected()) {
-            new TDcheckDetailWindow(child, transSystem, amount);
         } else if (withdrawRadioButton.isSelected()) {
             // Withdraw
             if (amount > child.getBalance()) {

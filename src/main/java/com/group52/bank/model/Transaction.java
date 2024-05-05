@@ -1,6 +1,5 @@
 package com.group52.bank.model;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class Transaction {
@@ -67,9 +66,4 @@ public class Transaction {
         }
     }
 
-    //for Term Deposit Maturity
-    public boolean TDmaturity(){
-        this.state = "Maturity";
-        return true;
-    }
 }

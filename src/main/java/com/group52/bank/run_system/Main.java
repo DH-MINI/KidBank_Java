@@ -18,12 +18,11 @@ public class Main {
     private static final String CHILD_CSV = "src/main/resources/datacsv/children.csv";
     private static final String TRANSACTION_HISTORY_CSV = "src/main/resources/datacsv/transactionHistory.csv";
     private static final String TASK_CSV = "src/main/resources/datacsv/taskHistory.csv";
-    private static final String profitRateCSV = "src/main/resources/datacsv/profitRate.csv";
 
     public static void main(String[] args) throws Exception {
         Scanner scanner = new Scanner(System.in);
         AuthenticationSystem authSystem = new AuthenticationSystem(PARENT_CSV, CHILD_CSV);
-        TransactionSystem transSystem = new TransactionSystem(TRANSACTION_HISTORY_CSV,CHILD_CSV,profitRateCSV);
+        TransactionSystem transSystem = new TransactionSystem(TRANSACTION_HISTORY_CSV,CHILD_CSV);
         TaskSystem taskSystem = new TaskSystem(TASK_CSV,CHILD_CSV);
 
         List<Child> children = new ArrayList<>(authSystem.loadChildrenData());
