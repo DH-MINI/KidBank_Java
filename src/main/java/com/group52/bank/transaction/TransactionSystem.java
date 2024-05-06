@@ -14,14 +14,20 @@ public class TransactionSystem {
     private final String childCSV;
     private final List<Transaction> transactionHistory;
 
+    private List<Transaction> uncheckedTransHistory;
+
     public TransactionSystem(String transactionHistoryCSV, String childCSV) {
         this.transactionHistoryCSV = transactionHistoryCSV;
         this.childCSV = childCSV;
         this.transactionHistory = loadTransactionHistory();
+        this.uncheckedTransHistory = loadUncheckedTransHistory();
     }
 
     public void addTransaction(Transaction transaction) {
         transactionHistory.add(transaction);
+        if("Unchecked".equals(transaction.getState())) {
+            uncheckedTransHistory.add(transaction);
+        }
         saveTransactionHistory();
     }
 
@@ -72,6 +78,19 @@ public class TransactionSystem {
         return history;
     }
 
+    public List<Transaction> loadUncheckedTransHistory(){
+        List<Transaction> uncheckedTransactions = new ArrayList<>();
+        for (Transaction transaction : transactionHistory) {
+            if ("Unchecked".equals(transaction.getState())) {
+                uncheckedTransactions.add(transaction);
+            }
+        }
+        if (uncheckedTransactions.isEmpty()) {
+            System.out.println("No unchecked transactions found.");
+        }
+        return uncheckedTransactions;
+    }
+
     public void saveTransactionHistory() {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(transactionHistoryCSV))) {
             for (Transaction transaction : transactionHistory) {
@@ -114,6 +133,7 @@ public class TransactionSystem {
                 saveTransactionHistory();
             }
         }
+        uncheckedTransHistoryUpdate();
         if (count == 0) {
             System.out.println("Transaction ID not found.");
             return false;
@@ -155,4 +175,7 @@ public class TransactionSystem {
     public List<Transaction> getTransactionHistory() {
         return transactionHistory;
     }
+    public List<Transaction> getUncheckedTransHistory(){return uncheckedTransHistory; }
+
+    public void uncheckedTransHistoryUpdate(){uncheckedTransHistory = loadUncheckedTransHistory(); }
 }
