@@ -18,15 +18,21 @@ public class TransactionSystem {
     private final String profitRateCSV;
     private final List<Transaction> transactionHistory;
 
+    private List<Transaction> uncheckedTransHistory;
+
     public TransactionSystem(String transactionHistoryCSV, String childCSV, String profitRateCSV) {
         this.transactionHistoryCSV = transactionHistoryCSV;
         this.childCSV = childCSV;
         this.profitRateCSV = profitRateCSV;
         this.transactionHistory = loadTransactionHistory();
+        this.uncheckedTransHistory = loadUncheckedTransHistory();
     }
 
     public void addTransaction(Transaction transaction) {
         transactionHistory.add(transaction);
+        if ("Unchecked".equals(transaction.getState())) {
+            uncheckedTransHistory.add(transaction);
+        }
         saveTransactionHistory();
     }
 
@@ -69,13 +75,12 @@ public class TransactionSystem {
                 String source = data[4];
                 String destination = data[5];
                 String state = data[6];
-                if(type.equals("TD")){
+                if (type.equals("TD")) {
                     LocalDate due = LocalDate.parse(data[7]);
                     double profitRate = Double.parseDouble(data[8]);
                     int months = Integer.parseInt(data[9]);
                     history.add(new TermDeposit(transactionId, amount, timestamp, type, source, destination, state, due, profitRate, months));
-                }
-                else{
+                } else {
                     history.add(new Transaction(transactionId, amount, timestamp, type, source, destination, state));
                 }
             }
@@ -85,13 +90,25 @@ public class TransactionSystem {
         return history;
     }
 
+    public List<Transaction> loadUncheckedTransHistory() {
+        List<Transaction> uncheckedTransactions = new ArrayList<>();
+        for (Transaction transaction : transactionHistory) {
+            if ("Unchecked".equals(transaction.getState())) {
+                uncheckedTransactions.add(transaction);
+            }
+        }
+        if (uncheckedTransactions.isEmpty()) {
+            System.out.println("No unchecked transactions found.");
+        }
+        return uncheckedTransactions;
+    }
+
     public void saveTransactionHistory() {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(transactionHistoryCSV))) {
             for (Transaction transaction : transactionHistory) {
-                if(transaction instanceof TermDeposit){
-                    bw.write(TDtoCSV((TermDeposit)transaction));
-                }
-                else{
+                if (transaction instanceof TermDeposit) {
+                    bw.write(TDtoCSV((TermDeposit) transaction));
+                } else {
                     bw.write(transactionToCSV(transaction));
                 }
                 bw.newLine();
@@ -111,7 +128,7 @@ public class TransactionSystem {
                 transaction.getState());
     }
 
-    private String TDtoCSV(TermDeposit TD){
+    private String TDtoCSV(TermDeposit TD) {
         return String.join(",", TD.getTransactionId(),
                 String.valueOf(TD.getAmount()),
                 TD.getTimestamp().toString(),
@@ -145,12 +162,14 @@ public class TransactionSystem {
                 saveTransactionHistory();
             }
         }
+        uncheckedTransHistoryUpdate();
         if (count == 0) {
             System.out.println("Transaction ID not found.");
             return false;
         }
         return true;
     }
+
     private void updateChildBalance(Transaction transaction) {
         List<String> lines = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(childCSV))) {
@@ -166,8 +185,8 @@ public class TransactionSystem {
                     } else if ("TD".equals(transaction.getType())) {
                         TermDeposit td = (TermDeposit) transaction;
                         int compare = LocalDate.now().compareTo(td.getDue());
-                        if(compare < 0){
-                            currentBalance += (td.getAmount()*td.getProfitRate()*td.getMonths());
+                        if (compare < 0) {
+                            currentBalance += (td.getAmount() * td.getProfitRate() * td.getMonths());
                             td.TDmaturity();
                         }
                     }
@@ -194,7 +213,15 @@ public class TransactionSystem {
         return transactionHistory;
     }
 
-    public double getCurrentProfitRate(){
+    public List<Transaction> getUncheckedTransHistory() {
+        return uncheckedTransHistory;
+    }
+
+    public void uncheckedTransHistoryUpdate() {
+        uncheckedTransHistory = loadUncheckedTransHistory();
+    }
+
+    public double getCurrentProfitRate() {
         double profitRate = 0;
         try (BufferedReader br = new BufferedReader(new FileReader(profitRateCSV))) {
             String line;
@@ -202,7 +229,7 @@ public class TransactionSystem {
 
             if ((line = br.readLine()) != null) {
                 nextLine = br.readLine();
-                while (nextLine != null){
+                while (nextLine != null) {
                     line = nextLine;
                     nextLine = br.readLine();
                 }
