@@ -17,16 +17,21 @@ public class TransactionSystem {
 
     private final String profitRateCSV;
     private final List<Transaction> transactionHistory;
-
+    private List<Transaction> uncheckedTransHistory;
+  
     public TransactionSystem(String transactionHistoryCSV, String childCSV, String profitRateCSV) {
         this.transactionHistoryCSV = transactionHistoryCSV;
         this.childCSV = childCSV;
         this.profitRateCSV = profitRateCSV;
         this.transactionHistory = loadTransactionHistory();
+        this.uncheckedTransHistory = loadUncheckedTransHistory();
     }
 
     public void addTransaction(Transaction transaction) {
         transactionHistory.add(transaction);
+        if("Unchecked".equals(transaction.getState())) {
+            uncheckedTransHistory.add(transaction);
+        }
         saveTransactionHistory();
     }
 
@@ -83,6 +88,19 @@ public class TransactionSystem {
             System.err.println("Error loading transaction history from CSV: " + e.getMessage());
         }
         return history;
+    }
+
+    public List<Transaction> loadUncheckedTransHistory(){
+        List<Transaction> uncheckedTransactions = new ArrayList<>();
+        for (Transaction transaction : transactionHistory) {
+            if ("Unchecked".equals(transaction.getState())) {
+                uncheckedTransactions.add(transaction);
+            }
+        }
+        if (uncheckedTransactions.isEmpty()) {
+            System.out.println("No unchecked transactions found.");
+        }
+        return uncheckedTransactions;
     }
 
     public void saveTransactionHistory() {
@@ -145,6 +163,7 @@ public class TransactionSystem {
                 saveTransactionHistory();
             }
         }
+        uncheckedTransHistoryUpdate();
         if (count == 0) {
             System.out.println("Transaction ID not found.");
             return false;
@@ -193,6 +212,11 @@ public class TransactionSystem {
     public List<Transaction> getTransactionHistory() {
         return transactionHistory;
     }
+
+    public List<Transaction> getUncheckedTransHistory(){return uncheckedTransHistory; }
+
+    public void uncheckedTransHistoryUpdate(){uncheckedTransHistory = loadUncheckedTransHistory(); }
+
 
     public double getCurrentProfitRate(){
         double profitRate = 0;

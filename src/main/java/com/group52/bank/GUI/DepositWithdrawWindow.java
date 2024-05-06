@@ -24,6 +24,7 @@ public class DepositWithdrawWindow extends JFrame {
     private JRadioButton withdrawRadioButton;
     private JButton submitButton;
     private JButton cancelButton;
+    private JLabel balance;
 
     public DepositWithdrawWindow(Child child, TransactionSystem transSystem) {
         super("Deposit and Withdraw");
@@ -39,6 +40,7 @@ public class DepositWithdrawWindow extends JFrame {
         withdrawRadioButton = new JRadioButton("Withdraw");
         submitButton = new JButton("Submit");
         cancelButton = new JButton("Cancel");
+        balance = new JLabel("Account Balance: " + child.getBalance());
 
         // Set deposit radio button selected by default
         depositRadioButton.setSelected(true);
@@ -54,12 +56,15 @@ public class DepositWithdrawWindow extends JFrame {
         cancelButton.addActionListener(e -> this.dispose()); // Close window on cancel
 
         // Set layout manager for the frame
-        setLayout(new GridLayout(4, 3));
+
+        setLayout(new GridLayout(5, 2));
 
         // Add Swing components to the frame
         add(titleLabel);
         add(new JLabel()); // Placeholder
-        add(new JLabel()); // Placeholder
+
+        add(balance);
+        add(new JLabel());
 
         add(amountLabel);
         add(amountField);

@@ -2,6 +2,7 @@ package com.group52.bank.task;
 
 import com.group52.bank.model.Task;
 import com.group52.bank.model.Transaction;
+import com.group52.bank.model.Child;
 
 import java.io.*;
 import java.time.LocalDate;
@@ -15,10 +16,13 @@ public class TaskSystem {
     private final String childCSV;
     private final List<Task> taskHistory;
 
+    private List<Task> unreceivedTasks;
+
     public TaskSystem(String taskHistoryCSV, String childCSV) {
         this.taskHistoryCSV = taskHistoryCSV;
         this.childCSV = childCSV;
         this.taskHistory = loadTaskHistory();
+        this.unreceivedTasks = loadUnrecTaskHistory();
     }
 
 
@@ -40,6 +44,7 @@ public class TaskSystem {
         // Save the updated task history to CSV
         saveTaskHistory();
         loadTaskHistory();
+        unrecTaskHistoryUpdate();
     }
 
 
@@ -62,6 +67,7 @@ public class TaskSystem {
                 }
             }
         }
+        unrecTaskHistoryUpdate();
         if (count == 0) {
             System.out.println("Task ID not found.");
             return false;
@@ -69,6 +75,7 @@ public class TaskSystem {
         return true;
     }
 
+    /* Unreceived tasks can  */
     public boolean receiveTask(String taskId, String childUsername) {
         int count = 0;
         for (Task task : taskHistory) {
@@ -77,6 +84,7 @@ public class TaskSystem {
                 task.setReceivedBy(childUsername);
             }
         }
+        unrecTaskHistoryUpdate();
         if (count == 1) {
             System.out.println(count + " task(s) received successfully.");
             return true;
@@ -106,6 +114,19 @@ public class TaskSystem {
         return history;
     }
 
+    private List<Task> loadUnrecTaskHistory(){
+        List<Task> unreceivedTasks = new ArrayList<>();
+        for (Task task : taskHistory) {
+            if ("Unreceived".equals(task.getReceivedBy())) {
+                unreceivedTasks.add(task);
+            }
+        }
+        if (unreceivedTasks.isEmpty()) {
+            System.out.println("No unreceived tasks found.");
+        }
+        return unreceivedTasks;
+    }
+
     public void saveTaskHistory() {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(taskHistoryCSV))) {
             for (Task task : taskHistory) {
@@ -126,7 +147,25 @@ public class TaskSystem {
                 task.getReceivedBy());
     }
 
+    public List<Task> getChildsTask(Child child){
+        List<Task> myTask = new ArrayList<>();
+        for (Task task : taskHistory) {
+            if (child.getUsername().equals(task.getReceivedBy())) {
+                myTask.add(task);
+            }
+        }
+        if (myTask.isEmpty()) {
+            System.out.println("No tasks found.");
+        }
+        return myTask;
+    }
+
+    /* Each time taskHistory updates, this method should be called. */
+    public void unrecTaskHistoryUpdate() { unreceivedTasks = loadUnrecTaskHistory(); }
+
     public List<Task> getTaskHistory() {
         return taskHistory;
     }
+
+    public List<Task> getUnreceivedTasks() { return unreceivedTasks; }
 }
