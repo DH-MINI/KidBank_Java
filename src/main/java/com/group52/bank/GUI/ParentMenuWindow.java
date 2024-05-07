@@ -47,6 +47,13 @@ public class ParentMenuWindow extends JFrame {
         this.transSystem = transSystem;
         this.taskSystem = taskSystem;
 
+        getContentPane().setBackground(Color.YELLOW);
+        // 设置窗口大小
+        setSize(400, 300);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null); // 居中显示
+        setVisible(true);
+
         // Set layout manager for the frame
         setLayout(new BorderLayout());
 
@@ -63,8 +70,9 @@ public class ParentMenuWindow extends JFrame {
         setProfitButton = new JButton("Set Profit Rate of Term Deposit");
 
         // Add buttons to a panel
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new GridLayout(6, 1));
+
+        JPanel buttonPanel = new JPanel(new GridLayout(5, 1));
+
         buttonPanel.add(viewChildrenButton);
         buttonPanel.add(createChildAccountButton);
         buttonPanel.add(transactionManagementButton);
@@ -81,6 +89,14 @@ public class ParentMenuWindow extends JFrame {
         taskManagementButton.addActionListener(e -> handleTaskManagementSubMenu());
         logoutButton.addActionListener(e -> handleLogout());
         setProfitButton.addActionListener(e -> handleSetProfit());
+
+        // Set button sizes
+        Dimension buttonSize = new Dimension(200, 50);
+        viewChildrenButton.setPreferredSize(buttonSize);
+        createChildAccountButton.setPreferredSize(buttonSize);
+        transactionManagementButton.setPreferredSize(buttonSize);
+        taskManagementButton.setPreferredSize(buttonSize);
+        logoutButton.setPreferredSize(buttonSize);
 
         // Set frame properties
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -107,9 +123,6 @@ public class ParentMenuWindow extends JFrame {
             // Create a JTable model and set the data and column names
             TableModel tableModel = new DefaultTableModel(childData, columnNames);
             childTable = new JTable(tableModel);
-
-            // Optional: Adjust table column widths
-//            childTable.setAutoResizeMode(JTable.AUTO_RESIZE_SUBCOLUMNS);
 
             // Add the table to a JScrollPane if needed
             JScrollPane scrollPane = new JScrollPane(childTable);
@@ -145,4 +158,3 @@ public class ParentMenuWindow extends JFrame {
         new SetProfitRateWindow(transSystem);
     }
 }
-
