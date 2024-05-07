@@ -69,6 +69,6 @@ public class ChildTaskMenuWindow extends JFrame {
 
     private void handleConfirmCompletion() {
         // Open a separate window for confirming task completion
-        new ConfirmCompletionWindow(taskSystem, this).setVisible(true);
+        new ConfirmCompletionWindow(taskSystem, this, this.child).setVisible(true);
     }
 }

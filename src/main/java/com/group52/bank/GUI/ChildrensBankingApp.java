@@ -26,6 +26,8 @@ public class ChildrensBankingApp extends Application {
     private static final String CHILD_CSV = "src/main/resources/datacsv/children.csv";
     private static final String TRANSACTION_HISTORY_CSV = "src/main/resources/datacsv/transactionHistory.csv";
     private static final String TASK_CSV = "src/main/resources/datacsv/taskHistory.csv";
+    private static final String profitRateCSV = "src/main/resources/datacsv/profitRate.csv";
+
     AuthenticationSystem authSystem;
     TransactionSystem transSystem;
     TaskSystem taskSystem;
@@ -56,6 +58,7 @@ public class ChildrensBankingApp extends Application {
             imageView.setPreserveRatio(false); // 禁用保持比例
             BorderPane.setMargin(imageView, new Insets(0, 150, 0, 0)); // 从上到下的顺序为上、右、下、左
 
+
             // 总体布局
             BorderPane borderPane = new BorderPane();
             borderPane.setLeft(leftBox);
@@ -69,6 +72,11 @@ public class ChildrensBankingApp extends Application {
             borderPane.setBackground(background);
             // 创建场景
             Scene scene = new Scene(borderPane, 1200, 600); // 注意这里的总宽度增加了，以适应右侧的图片
+
+        // Initialize authentication, transaction, and task systems (use your existing code)
+        authSystem = new AuthenticationSystem(PARENT_CSV, CHILD_CSV);
+        transSystem = new TransactionSystem(TRANSACTION_HISTORY_CSV, CHILD_CSV, profitRateCSV);
+        taskSystem = new TaskSystem(TASK_CSV, CHILD_CSV);
 
             // 设置舞台
             primaryStage.setTitle("Online Bank");
