@@ -21,10 +21,15 @@ public class Child extends User {
     public Child(String username, String password, Boolean noNeedHash) {
         super("default","default_password");
         this.username = username;
-        this.password = hashPassword(password);
+        this.password = password;
     }
 
-
+    public Child(String username, String password, double balance, Boolean noNeedHash) {
+        super("default","default_password");
+        this.username = username;
+        this.password = password;
+        this.balance = balance;
+    }
 
 
     public double getBalance() {
