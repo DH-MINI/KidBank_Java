@@ -129,7 +129,7 @@ public class ParentMenuWindow extends JFrame {
 
     private void handleTaskManagementSubMenu() {
         // Open a separate window for task management sub-menu
-        new TaskMenuWindow(app.taskSystem, this).setVisible(true);
+        new TaskMenuWindow(app.taskSystem, this, parent).setVisible(true);
     }
 
     private void handleLogout() {

@@ -3,6 +3,7 @@ package com.group52.bank.task;
 import com.group52.bank.model.Task;
 import com.group52.bank.model.Transaction;
 import com.group52.bank.model.Child;
+import com.group52.bank.model.User;
 
 import java.io.*;
 import java.time.LocalDate;
@@ -48,7 +49,7 @@ public class TaskSystem {
     }
 
 
-    public boolean changeTaskState(String taskId, String newState) {
+    public boolean changeTaskState(String taskId, String newState, User user) {
         int count = 0;
         for (Task task : taskHistory) {
             if (task.getTaskId().contains(taskId)) {
@@ -57,9 +58,10 @@ public class TaskSystem {
                     System.out.println("Multiple tasks found with the given ID. Please provide a more specific ID.");
                     return false;
                 }
-                if ("Complete".equals(newState)) {
+                if ("Complete".equals(newState) && task.getState().equals("ChildComplete")) {
                     task.doubleCheck();
-                } else if ("ChildComplete".equals(newState)) {
+                    updateChildBalance(task);
+                } else if ("ChildComplete".equals(newState) && task.getReceivedBy().equals(user.getUsername())) {
                     task.childConfirmComplete();
                 } else {
                     System.out.println("Invalid choice. Please try again.");
@@ -73,6 +75,34 @@ public class TaskSystem {
             return false;
         }
         return true;
+    }
+
+    private void updateChildBalance(Task task) {
+        List<String> lines = new ArrayList<>();
+        try (BufferedReader br = new BufferedReader(new FileReader(childCSV))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] parts = line.split(",");
+                if(task.getReceivedBy().equals(parts[0])) {
+                    double currentBalance = Double.parseDouble(parts[2]);
+                    currentBalance += task.getReward();
+                    lines.add(parts[0] + "," + parts[1] + "," + currentBalance);
+                } else {
+                    lines.add(line);
+                }
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(childCSV))) {
+            for (String line : lines) {
+                bw.write(line);
+                bw.newLine();
+            }
+        } catch (IOException e) {
+            System.err.println("Error writing updated child balance to CSV: " + e.getMessage());
+        }
     }
 
     /* Unreceived tasks can  */

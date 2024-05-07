@@ -1,5 +1,6 @@
 package com.group52.bank.GUI;
 
+import com.group52.bank.model.Parent;
 import com.group52.bank.model.Task;
 import com.group52.bank.task.TaskSystem;
 
@@ -25,11 +26,13 @@ public class TaskChangeStateWindow extends JFrame {
     private JComboBox<String> newStateComboBox;
     private JButton submitButton;
     private JButton cancelButton;
+    private Parent parent;
 
-    public TaskChangeStateWindow(TaskSystem taskSystem, TaskMenuWindow taskMenuWindow) {
+    public TaskChangeStateWindow(TaskSystem taskSystem, TaskMenuWindow taskMenuWindow, Parent parent) {
         super("Change Task State");
         this.taskSystem = taskSystem;
         this.taskMenuWindow = taskMenuWindow;
+        this.parent = parent;
 
         // Create Swing components and arrange them using a layout manager
         taskTitle = new JLabel("Task List:");
@@ -73,7 +76,7 @@ public class TaskChangeStateWindow extends JFrame {
         String taskId = taskIdField.getText();
         String newState = (String) newStateComboBox.getSelectedItem();
 
-        if (taskSystem.changeTaskState(taskId, newState)) {
+        if (taskSystem.changeTaskState(taskId, newState, parent)) {
             JOptionPane.showMessageDialog(this, "Task state changed successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
             this.dispose(); // Close window on success
 //            taskMenuWindow.refreshTaskList(); // Optional: Update task list in task menu window
