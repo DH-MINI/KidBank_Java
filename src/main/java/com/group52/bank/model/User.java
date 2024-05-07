@@ -16,7 +16,17 @@ public abstract class User {
 
     private String hashPassword(String plainTextPassword) {
         // Implement a secure password hashing algorithm (replace with actual implementation)
-        return "HASHED_" + plainTextPassword; // Placeholder for demonstration
+        // Code by YYQ;
+        String hPW = "";
+        int len = plainTextPassword.length();
+        for(int n = 0; n < len; n++) {
+            String s1 = plainTextPassword.substring(n, len);
+            int hc = s1.hashCode();
+            String hs1 = Integer.toHexString(hc);
+            hPW = hPW + hs1.substring(hs1.length()-2,hs1.length());
+        }
+
+        return "HASHED_" + hPW; // Placeholder for demonstration
     }
 
     private String inverseHashPassword(String hashedPassword) {
@@ -27,10 +37,16 @@ public abstract class User {
         }
     }
 
-
     public String getPassword() {
-        password = inverseHashPassword(password);
-        return  hashPassword(password);
+        //Modify by YYQ;
+        //password = inverseHashPassword(password);
+        return password;
+
     }
 
+    // Code by YYQ;
+    public boolean VerifyPassword(String PW) {
+        String hPW = hashPassword(PW);
+        return password.equals(hPW);
+    }
 }

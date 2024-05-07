@@ -10,6 +10,7 @@ public class Child extends User {
         this.password = password;
         this.balance = balance;
     }
+//yyq
 
     public Child(String username, String password) {
         super("default","default_password");
