@@ -1,5 +1,6 @@
 package com.group52.bank.GUI;
 
+import com.group52.bank.model.Parent;
 import com.group52.bank.task.TaskSystem;
 
 import javax.swing.*;
@@ -16,16 +17,18 @@ import java.awt.event.ActionListener;
         private TaskSystem taskSystem;
         private ParentMenuWindow parentMenuWindow;
 
+        private Parent parent;
         private JLabel titleLabel;
         private JButton publishTaskButton;
         private JButton manageTasksButton;
         private JButton viewTaskHistoryButton;
         private JButton backButton;
 
-        public TaskMenuWindow(TaskSystem taskSystem, ParentMenuWindow parentMenuWindow) {
+        public TaskMenuWindow(TaskSystem taskSystem, ParentMenuWindow parentMenuWindow, Parent parent) {
             super("Task Management Submenu");
             this.taskSystem = taskSystem;
             this.parentMenuWindow = parentMenuWindow;
+            this.parent = parent;
 
             // Create Swing components and arrange them using a layout manager
             titleLabel = new JLabel("Task Management Submenu");
@@ -64,7 +67,7 @@ import java.awt.event.ActionListener;
 
         private void handleChangeTaskState() {
             // Open a separate window for changing task state
-            new TaskChangeStateWindow(taskSystem, this).setVisible(true);
+            new TaskChangeStateWindow(taskSystem, this, parent).setVisible(true);
         }
         private void handleViewTaskHistory() {
             // Open a separate window for viewing task history

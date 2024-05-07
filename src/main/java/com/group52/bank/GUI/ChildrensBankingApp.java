@@ -12,6 +12,7 @@ public class ChildrensBankingApp extends JFrame {
     private static final String CHILD_CSV = "src/main/resources/datacsv/children.csv";
     private static final String TRANSACTION_HISTORY_CSV = "src/main/resources/datacsv/transactionHistory.csv";
     private static final String TASK_CSV = "src/main/resources/datacsv/taskHistory.csv";
+    private static final String profitRateCSV = "src/main/resources/datacsv/profitRate.csv";
 
     AuthenticationSystem authSystem;
     TransactionSystem transSystem;
@@ -23,7 +24,7 @@ public class ChildrensBankingApp extends JFrame {
 
         // Initialize authentication, transaction, and task systems (use your existing code)
         authSystem = new AuthenticationSystem(PARENT_CSV, CHILD_CSV);
-        transSystem = new TransactionSystem(TRANSACTION_HISTORY_CSV, CHILD_CSV);
+        transSystem = new TransactionSystem(TRANSACTION_HISTORY_CSV, CHILD_CSV, profitRateCSV);
         taskSystem = new TaskSystem(TASK_CSV, CHILD_CSV);
 
         // Create the login window
