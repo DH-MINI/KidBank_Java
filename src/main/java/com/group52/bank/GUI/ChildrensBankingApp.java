@@ -26,7 +26,7 @@ public class ChildrensBankingApp extends JFrame {
 
     public ChildrensBankingApp() {
         super("Children's Banking App");
-        setBackground(new Color(255, 179, 71));
+
         // Initialize authentication, transaction, and task systems (use your existing code)
         authSystem = new AuthenticationSystem(PARENT_CSV, CHILD_CSV);
         transSystem = new TransactionSystem(TRANSACTION_HISTORY_CSV, CHILD_CSV, profitRateCSV);
@@ -39,7 +39,7 @@ public class ChildrensBankingApp extends JFrame {
         // Explore button
         JButton exploreButton = new JButton("Explore Now");
         exploreButton.setBackground(new Color(128, 0, 128)); // Purple color (RGB: 128, 0, 128)
-//        exploreButton.setPreferredSize(new Dimension(400, 400));
+//        exploreButton.setBackground(new Color(255,0,0));
         exploreButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -49,15 +49,12 @@ public class ChildrensBankingApp extends JFrame {
             }
         });
 
-
-        // Left panel layout
-        JPanel leftPanel = new JPanel();
-        leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
-        leftPanel.setBorder(new EmptyBorder(50, 50, 50, 50));
-        leftPanel.setBackground(new Color(255, 179, 71)); // Orange color (RGB: 255, 179, 71)
-        leftPanel.add(welcomeText);
-        leftPanel.add(Box.createRigidArea(new Dimension(0, 50))); // Add vertical space
-        leftPanel.add(exploreButton);
+        // Content panel layout
+        JPanel contentPanel = new JPanel(new BorderLayout());
+        contentPanel.setOpaque(false); // Make the content panel transparent
+        contentPanel.setBorder(new EmptyBorder(50, 50, 50, 50));
+        contentPanel.add(welcomeText, BorderLayout.NORTH);
+        contentPanel.add(exploreButton, BorderLayout.CENTER);
 
         // Right panel image
         ImageIcon imageIcon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/image/main.png")));
@@ -67,11 +64,13 @@ public class ChildrensBankingApp extends JFrame {
 
         // Main panel layout
         JPanel mainPanel = new JPanel(new BorderLayout());
-        mainPanel.add(leftPanel, BorderLayout.WEST);
+        mainPanel.setBackground(new Color(255, 179, 71)); // Orange color (RGB: 255, 179, 71)
+        mainPanel.add(contentPanel, BorderLayout.WEST);
         mainPanel.add(imageView, BorderLayout.CENTER);
 
         // Set up the frame
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        getContentPane().setBackground(new Color(255, 179, 71)); // Set the background color of the frame
         getContentPane().add(mainPanel);
         setSize(1200, 600);
         setLocationRelativeTo(null); // Center the frame
