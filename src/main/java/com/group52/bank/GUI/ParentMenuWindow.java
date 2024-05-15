@@ -38,6 +38,7 @@ public class ParentMenuWindow extends JFrame {
     private JButton logoutButton;
 
     private JTable childTable;
+    private JButton setProfitButton;
 
     public ParentMenuWindow(ChildrensBankingApp app, Parent parent, TransactionSystem transSystem, TaskSystem taskSystem) {
         super("Parent Menu - Welcome, " + parent.getUsername());
@@ -45,6 +46,13 @@ public class ParentMenuWindow extends JFrame {
         this.parent = parent;
         this.transSystem = transSystem;
         this.taskSystem = taskSystem;
+
+        getContentPane().setBackground(Color.YELLOW);
+        // 设置窗口大小
+        setSize(400, 300);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null); // 居中显示
+        setVisible(true);
 
         // Set layout manager for the frame
         setLayout(new BorderLayout());
@@ -59,14 +67,18 @@ public class ParentMenuWindow extends JFrame {
         transactionManagementButton = new JButton("Transaction Management");
         taskManagementButton = new JButton("Task Management");
         logoutButton = new JButton("Logout");
+        setProfitButton = new JButton("Set Profit Rate of Term Deposit");
 
         // Add buttons to a panel
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new GridLayout(5, 1));
+
+        JPanel buttonPanel = new JPanel(new GridLayout(5, 1));
+
         buttonPanel.add(viewChildrenButton);
         buttonPanel.add(createChildAccountButton);
         buttonPanel.add(transactionManagementButton);
         buttonPanel.add(taskManagementButton);
+        buttonPanel.add(setProfitButton);
+        buttonPanel.add(setProfitButton);
         buttonPanel.add(logoutButton);
         add(buttonPanel, BorderLayout.CENTER);
 
@@ -76,6 +88,15 @@ public class ParentMenuWindow extends JFrame {
         transactionManagementButton.addActionListener(e -> handleTransactionManagement());
         taskManagementButton.addActionListener(e -> handleTaskManagementSubMenu());
         logoutButton.addActionListener(e -> handleLogout());
+        setProfitButton.addActionListener(e -> handleSetProfit());
+
+        // Set button sizes
+        Dimension buttonSize = new Dimension(200, 50);
+        viewChildrenButton.setPreferredSize(buttonSize);
+        createChildAccountButton.setPreferredSize(buttonSize);
+        transactionManagementButton.setPreferredSize(buttonSize);
+        taskManagementButton.setPreferredSize(buttonSize);
+        logoutButton.setPreferredSize(buttonSize);
 
         // Set frame properties
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -103,9 +124,6 @@ public class ParentMenuWindow extends JFrame {
             TableModel tableModel = new DefaultTableModel(childData, columnNames);
             childTable = new JTable(tableModel);
 
-            // Optional: Adjust table column widths
-//            childTable.setAutoResizeMode(JTable.AUTO_RESIZE_SUBCOLUMNS);
-
             // Add the table to a JScrollPane if needed
             JScrollPane scrollPane = new JScrollPane(childTable);
             JOptionPane.showMessageDialog(this, scrollPane, "Children List", JOptionPane.PLAIN_MESSAGE);
@@ -124,7 +142,7 @@ public class ParentMenuWindow extends JFrame {
 
     private void handleTaskManagementSubMenu() {
         // Open a separate window for task management sub-menu
-        new TaskMenuWindow(app.taskSystem, this).setVisible(true);
+        new TaskMenuWindow(app.taskSystem, this, parent).setVisible(true);
     }
 
     private void handleLogout() {
@@ -135,5 +153,8 @@ public class ParentMenuWindow extends JFrame {
             app.loginWindow.setVisible(true); // Show login window again
         }
     }
-}
 
+    private void handleSetProfit(){
+        new SetProfitRateWindow(transSystem);
+    }
+}

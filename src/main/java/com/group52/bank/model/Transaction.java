@@ -1,5 +1,6 @@
 package com.group52.bank.model;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class Transaction {
@@ -7,10 +8,9 @@ public class Transaction {
     private String transactionId;
     private double amount;
     private LocalDateTime timestamp;
-    private String type; // Deposit or Withdrawal
+    private String type; // Deposit Withdrawal or Term deposit
     private String source; // Where the transaction is from
     private String destination; // Where the transaction is going to
-
     private String state;
 
     public Transaction(String transactionId, double amount, LocalDateTime timestamp, String type, String source, String destination, String state) {
@@ -66,4 +66,9 @@ public class Transaction {
         }
     }
 
+    //for Term Deposit Maturity
+    public boolean TDmaturity(){
+        this.state = "Maturity";
+        return true;
+    }
 }

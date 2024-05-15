@@ -1,9 +1,12 @@
 package com.group52.bank.model;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 public abstract class User {
 
     protected String username;
-    protected String password; // Hashed password (implement secure hashing)
+    protected String password; // Hashed password
 
     public User(String username, String password) {
         this.username = username;
@@ -14,23 +17,26 @@ public abstract class User {
         return username;
     }
 
-    private String hashPassword(String plainTextPassword) {
-        // Implement a secure password hashing algorithm (replace with actual implementation)
-        return "HASHED_" + plainTextPassword; // Placeholder for demonstration
-    }
+    String hashPassword(String plainTextPassword) {
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hash = digest.digest(plainTextPassword.getBytes());
+            StringBuilder hexString = new StringBuilder();
+            for (byte b : hash) {
+                String hex = Integer.toHexString(0xff & b);
+                if (hex.length() == 1) hexString.append('0');
+                hexString.append(hex);
+            }
+            return hexString.toString();
+        } catch (NoSuchAlgorithmException e) {
+//            e.printStackTrace();
 
-    private String inverseHashPassword(String hashedPassword) {
-        if (hashedPassword.startsWith("HASHED_")) {
-            return hashedPassword.substring("HASHED_".length());
-        } else {
-            return hashedPassword;
+            return null;
         }
     }
 
-
     public String getPassword() {
-        password = inverseHashPassword(password);
-        return  hashPassword(password);
+        return password;
     }
-
 }
+
