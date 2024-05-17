@@ -131,7 +131,7 @@ public class Main {
                     break;
 
                 case 4:
-                    handleTaskManagementSubMenu(scanner, taskSystem);
+                    handleTaskManagementSubMenu(scanner, taskSystem, parent);
                     break;
 
 
@@ -190,7 +190,7 @@ public class Main {
     }
 
 
-    private static void handleTaskManagementSubMenu(Scanner scanner, TaskSystem taskSystem) {
+    private static void handleTaskManagementSubMenu(Scanner scanner, TaskSystem taskSystem, Parent parent) {
         while (true) {
             System.out.println("\nTask Management Submenu:");
             System.out.println("1. Publish Task");
@@ -229,7 +229,7 @@ public class Main {
                     String taskId = scanner.nextLine();
                     System.out.println("Enter new state (Complete/Delete):");
                     String newState = scanner.nextLine();
-                    if (taskSystem.changeTaskState(taskId, newState)) {
+                    if (taskSystem.changeTaskState(taskId, newState, parent)) {
                         System.out.println("Task state changed successfully.");
                         taskSystem.saveTaskHistory();
                     } else {
@@ -348,7 +348,7 @@ public class Main {
                     System.out.println("\n");
                     System.out.println("Enter task ID to change state:");
                     String taskId = scanner.nextLine();
-                    if (taskSystem.changeTaskState(taskId, "ChildComplete")) {
+                    if (taskSystem.changeTaskState(taskId, "ChildComplete", child)) {
                         taskSystem.saveTaskHistory();
                         System.out.println("Task confirm complete successfully.");
                     } else {

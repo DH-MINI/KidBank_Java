@@ -8,10 +8,9 @@ public class Transaction {
     private String transactionId;
     private double amount;
     private LocalDateTime timestamp;
-    private String type; // Deposit or Withdrawal
+    private String type; // Deposit Withdrawal or Term deposit
     private String source; // Where the transaction is from
     private String destination; // Where the transaction is going to
-
     private String state;
 
     public Transaction(String transactionId, double amount, LocalDateTime timestamp, String type, String source, String destination, String state) {

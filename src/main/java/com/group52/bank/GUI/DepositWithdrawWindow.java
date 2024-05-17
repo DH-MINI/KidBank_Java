@@ -56,15 +56,21 @@ public class DepositWithdrawWindow extends JFrame {
         cancelButton.addActionListener(e -> this.dispose()); // Close window on cancel
 
         // Set layout manager for the frame
-        setLayout(new GridLayout(5, 3));
+
+        setLayout(new GridLayout(5, 2));
 
         // Add Swing components to the frame
         add(titleLabel);
         add(new JLabel()); // Placeholder
+
         add(balance);
         add(new JLabel());
+
         add(amountLabel);
         add(amountField);
+
+        add(new JLabel()); // Placeholder
+
         add(depositRadioButton);
         add(TDRadioButton);
         add(withdrawRadioButton);

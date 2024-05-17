@@ -69,7 +69,7 @@ public class ConfirmCompletionWindow extends JFrame {
 
     private void handleConfirmCompletion() {
         String taskId = taskIdField.getText();
-        if (taskSystem.changeTaskState(taskId, "ChildComplete")) {
+        if (taskSystem.changeTaskState(taskId, "ChildComplete", child)) {
             taskSystem.saveTaskHistory();
             JOptionPane.showMessageDialog(this, "Task confirmed complete successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
             this.dispose(); // Close window on success
