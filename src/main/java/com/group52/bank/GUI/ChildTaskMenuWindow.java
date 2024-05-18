@@ -7,6 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 public class ChildTaskMenuWindow extends JFrame {
 
@@ -36,7 +37,15 @@ public class ChildTaskMenuWindow extends JFrame {
         // Add action listeners for buttons
         viewTasksButton.addActionListener(e -> handleViewTasks());
         receiveTaskButton.addActionListener(e -> handleReceiveTask());
-        confirmCompletionButton.addActionListener(e -> handleConfirmCompletion());
+        confirmCompletionButton.addActionListener(e -> {
+            try {
+                handleConfirmCompletion();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            } catch (FontFormatException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
         backButton.addActionListener(e -> this.dispose()); // Close window on back
 
         // Set layout manager for the frame
@@ -67,7 +76,7 @@ public class ChildTaskMenuWindow extends JFrame {
         new ReceiveTaskWindow(taskSystem, this, this.child).setVisible(true);
     }
 
-    private void handleConfirmCompletion() {
+    private void handleConfirmCompletion() throws IOException, FontFormatException {
         // Open a separate window for confirming task completion
         new ConfirmCompletionWindow(taskSystem, this, this.child).setVisible(true);
     }
