@@ -41,6 +41,9 @@ public class AuthenticationSystem {
                     ((Child) user).setBalance(Double.parseDouble(data[2]));
                 }
                 users.put(username, user);
+                System.out.println(username);
+                System.out.println(password);
+
             }
         } catch (IOException | ArrayIndexOutOfBoundsException | NumberFormatException e) {
             System.err.println("Error loading users from CSV: " + e.getMessage());
@@ -56,7 +59,7 @@ public class AuthenticationSystem {
                 String username = data[0];
                 String password = data[1];
                 double balance = data.length > 2 ? Double.parseDouble(data[2]) : 0.0;
-                children.add(new Child(username, password, balance));
+                children.add(new Child(username, password, balance, true));
             }
         } catch (IOException | NumberFormatException e) {
             System.err.println("Error loading children data from CSV: " + e.getMessage());
