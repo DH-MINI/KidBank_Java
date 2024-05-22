@@ -8,6 +8,7 @@ import com.group52.bank.transaction.TransactionSystem;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 
 public class TransactionMenuWindow extends JFrame {
 
@@ -63,6 +64,18 @@ public class TransactionMenuWindow extends JFrame {
         backButton.setPreferredSize(new Dimension(100, 10));
 
 
+        changeStateButton = new JButton("Change Transaction State");
+        add(changeStateButton);
+        changeStateButton.addActionListener(e -> {
+            try {
+                handleChangeTransactionState();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            } catch (FontFormatException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+
 
 
         JPanel rightPanel = new JPanel(new BorderLayout());
@@ -116,7 +129,7 @@ public class TransactionMenuWindow extends JFrame {
         new ViewTransactionHistoryWindow(transSystem).setVisible(true); // Open separate window for detailed history
     }
 
-    private void handleChangeTransactionState() {
+    private void handleChangeTransactionState() throws IOException, FontFormatException {
         if (transSystem.viewUncheckedTransactionHistory()) {
             // Open a separate window for selecting transaction and state change
             new ChangeTransactionStateWindow(transSystem, this).setVisible(true);

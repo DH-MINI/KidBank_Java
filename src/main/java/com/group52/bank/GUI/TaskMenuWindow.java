@@ -11,8 +11,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
-    public class TaskMenuWindow extends JFrame {
+public class TaskMenuWindow extends JFrame {
 
         private TaskSystem taskSystem;
         private ParentMenuWindow parentMenuWindow;
@@ -73,7 +74,15 @@ import java.awt.event.ActionListener;
 
             // Add action listeners for buttons
             publishTaskButton.addActionListener(e -> handlePublishTask());
-            manageTasksButton.addActionListener(e -> handleChangeTaskState()); // Optional: Open separate window for managing tasks
+            manageTasksButton.addActionListener(e -> {
+                try {
+                    handleChangeTaskState();
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                } catch (FontFormatException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }); // Optional: Open separate window for managing tasks
             viewTaskHistoryButton.addActionListener(e -> handleViewTaskHistory()); // Call existing method (optional)
             backButton.addActionListener(e -> this.dispose()); // Close window on back
 
@@ -119,7 +128,7 @@ import java.awt.event.ActionListener;
             new PublishTaskWindow(taskSystem, this).setVisible(true);
         }
 
-        private void handleChangeTaskState() {
+        private void handleChangeTaskState() throws IOException, FontFormatException {
             // Open a separate window for changing task state
             new TaskChangeStateWindow(taskSystem, this, parent).setVisible(true);
         }

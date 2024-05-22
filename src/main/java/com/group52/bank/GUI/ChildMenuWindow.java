@@ -78,8 +78,8 @@ public class ChildMenuWindow extends JFrame {
         // Setup event handlers for buttons
         setupEventHandlers();
 
-        JPanel rightPanel = new JPanel(new BorderLayout());
-        rightPanel.add(buttonPanel, BorderLayout.CENTER);
+//        JPanel rightPanel = new JPanel(new BorderLayout());
+//        rightPanel.add(buttonPanel, BorderLayout.CENTER);
 
         // Add image to the left side
         JLabel imageLabel = new JLabel(new ImageIcon("src/main/resources/Image/childmenu1.png"));
@@ -88,7 +88,7 @@ public class ChildMenuWindow extends JFrame {
         // Add components to frame
         add(titleLabel, BorderLayout.NORTH);
         add(imageLabel, BorderLayout.WEST);
-        add(rightPanel, BorderLayout.EAST);
+//        add(rightPanel, BorderLayout.EAST);
 
         // Frame properties
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
