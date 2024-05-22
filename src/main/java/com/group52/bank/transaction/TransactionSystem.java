@@ -209,6 +209,34 @@ public class TransactionSystem {
         }
     }
 
+    public void updateChildSavingGoal(String childName, double newSavingGoal) {
+        List<String> lines = new ArrayList<>();
+        try (BufferedReader br = new BufferedReader(new FileReader(childCSV))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] parts = line.split(",");
+                if (parts[0].equals(childName))
+                    lines.add(parts[0] + "," + parts[1] + "," + parts[2] + "," + newSavingGoal);
+                else {
+                    lines.add(line);
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Error updating child saving goal: " + e.getMessage());
+        }
+
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(childCSV))) {
+            for (String line : lines) {
+                bw.write(line);
+                bw.newLine();
+            }
+        } catch (IOException e) {
+            System.err.println("Error writing updated child saving goal to CSV: " + e.getMessage());
+        }
+
+
+    }
+
     public List<Transaction> getTransactionHistory() {
         return transactionHistory;
     }

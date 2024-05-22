@@ -1,8 +1,10 @@
 package com.group52.bank.GUI;
 
+import com.group52.bank.authentication.AuthenticationSystem;
 import com.group52.bank.model.Child;
 import com.group52.bank.task.TaskSystem;
 import com.group52.bank.transaction.TransactionSystem;
+import com.group52.bank.authentication.AuthenticationSystem;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,6 +15,8 @@ public class ChildMenuWindow extends JFrame {
     private TransactionSystem transSystem;
     private TaskSystem taskSystem;
 
+    private AuthenticationSystem authSystem;
+
     private JLabel titleLabel;
     private JButton viewBalanceButton;
     private JButton viewTransactionHistoryButton;
@@ -20,12 +24,15 @@ public class ChildMenuWindow extends JFrame {
     private JButton taskManagementButton;
     private JButton logoutButton;
 
-    public ChildMenuWindow(ChildrensBankingApp app, Child child, TransactionSystem transSystem, TaskSystem taskSystem) {
+    private JButton savingGoalButton;
+
+    public ChildMenuWindow(ChildrensBankingApp app, Child child, TransactionSystem transSystem, TaskSystem taskSystem, AuthenticationSystem authSystem) {
         super("Child Menu - Welcome, " + child.getUsername());
         this.app = app;
         this.child = child;
         this.transSystem = transSystem;
         this.taskSystem = taskSystem;
+        this.authSystem = authSystem;
 
         // Load background image
         ImageIcon backgroundImage = new ImageIcon("src/main/resources/Image/ChildMenuBack.png");
@@ -60,14 +67,18 @@ public class ChildMenuWindow extends JFrame {
         backgroundLabel.add(buttonContainer); // Add the container to the background label
 
         // Create buttons
-        viewBalanceButton = createColoredButton("View Balance");
+//        viewBalanceButton = createColoredButton("View Balance");
+        savingGoalButton = createColoredButton("View Balance and Saving Goal");
         viewTransactionHistoryButton = createColoredButton("View Transaction History");
         depositWithdrawButton = createColoredButton("Deposit and Withdraw");
         taskManagementButton = createColoredButton("Task Management");
         logoutButton = createColoredButton("Logout");
 
+
+
         // Add buttons to the container
-        buttonContainer.add(viewBalanceButton);
+//        buttonContainer.add(viewBalanceButton);
+        buttonContainer.add(savingGoalButton);
         buttonContainer.add(viewTransactionHistoryButton);
         buttonContainer.add(depositWithdrawButton);
         buttonContainer.add(taskManagementButton);
@@ -78,8 +89,8 @@ public class ChildMenuWindow extends JFrame {
         // Setup event handlers for buttons
         setupEventHandlers();
 
-        JPanel rightPanel = new JPanel(new BorderLayout());
-        rightPanel.add(buttonPanel, BorderLayout.CENTER);
+//        JPanel rightPanel = new JPanel(new BorderLayout());
+//        rightPanel.add(buttonPanel, BorderLayout.CENTER);
 
         // Add image to the left side
         JLabel imageLabel = new JLabel(new ImageIcon("src/main/resources/Image/childmenu1.png"));
@@ -88,7 +99,7 @@ public class ChildMenuWindow extends JFrame {
         // Add components to frame
         add(titleLabel, BorderLayout.NORTH);
         add(imageLabel, BorderLayout.WEST);
-        add(rightPanel, BorderLayout.EAST);
+//        add(rightPanel, BorderLayout.EAST);
 
         // Frame properties
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -98,7 +109,8 @@ public class ChildMenuWindow extends JFrame {
     }
 
     private void setupEventHandlers() {
-        viewBalanceButton.addActionListener(e -> handleViewBalance());
+//        viewBalanceButton.addActionListener(e -> handleViewBalance());
+        savingGoalButton.addActionListener(e -> handleSavingGoalWindow());
         viewTransactionHistoryButton.addActionListener(e -> handleViewTransactionHistory());
         depositWithdrawButton.addActionListener(e -> handleDepositWithdraw());
         taskManagementButton.addActionListener(e -> handleChildTaskMenuWindow());
@@ -140,5 +152,10 @@ public class ChildMenuWindow extends JFrame {
             this.dispose();
             app.loginWindow.setVisible(true);
         }
+    }
+
+    private void handleSavingGoalWindow(){
+        new SavingGoalWindow(child, transSystem).setVisible(true);
+
     }
 }

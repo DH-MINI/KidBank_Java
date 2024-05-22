@@ -39,6 +39,7 @@ public class AuthenticationSystem {
                 User user = isParent ? new Parent(username, password, true) : new Child(username, password,true);
                 if (data.length > 2 && !isParent) {
                     ((Child) user).setBalance(Double.parseDouble(data[2]));
+                    ((Child) user).setSavingGoal(Double.parseDouble(data[3]));
                 }
                 users.put(username, user);
                 System.out.println(username);
@@ -59,7 +60,8 @@ public class AuthenticationSystem {
                 String username = data[0];
                 String password = data[1];
                 double balance = data.length > 2 ? Double.parseDouble(data[2]) : 0.0;
-                children.add(new Child(username, password, balance, true));
+                double savingGoal = data.length > 2 ? Double.parseDouble(data[3]) : 0.0;
+                children.add(new Child(username, password, balance,true, savingGoal));
             }
         } catch (IOException | NumberFormatException e) {
             System.err.println("Error loading children data from CSV: " + e.getMessage());
@@ -84,6 +86,7 @@ public class AuthenticationSystem {
             writer.write(user.getUsername() + "," + user.getPassword());
             if (user instanceof Child) {
                 writer.write("," + ((Child) user).getBalance());
+                writer.write("," + ((Child) user).getSavingGoal());
             }
             System.out.println(user.getPassword());
             writer.write("\n");

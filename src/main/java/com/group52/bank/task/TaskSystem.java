@@ -58,7 +58,7 @@ public class TaskSystem {
                     System.out.println("Multiple tasks found with the given ID. Please provide a more specific ID.");
                     return false;
                 }
-                if ("Complete".equals(newState) && task.getState().equals("ChildComplete")) {
+                if ("Complete".equals(newState) && task.getState().equals("ChildConfirmed")) {
                     task.doubleCheck();
                     updateChildBalance(task);
                 } else if ("ChildComplete".equals(newState) && task.getReceivedBy().equals(user.getUsername())) {
@@ -69,7 +69,7 @@ public class TaskSystem {
                 }
             }
         }
-        unrecTaskHistoryUpdate();
+        saveTaskHistory();
         if (count == 0) {
             System.out.println("Task ID not found.");
             return false;

@@ -1,14 +1,11 @@
 package com.group52.bank.GUI;
 
 import com.group52.bank.model.Child;
-import com.group52.bank.model.TermDeposit;
-import com.group52.bank.model.Transaction;
 import com.group52.bank.transaction.TransactionSystem;
+import com.group52.bank.model.Transaction;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.time.LocalDateTime;
 
 public class DepositWithdrawWindow extends JFrame {
@@ -24,23 +21,62 @@ public class DepositWithdrawWindow extends JFrame {
     private JRadioButton withdrawRadioButton;
     private JButton submitButton;
     private JButton cancelButton;
-    private JLabel balance;
+    private JLabel balanceLabel;
 
     public DepositWithdrawWindow(Child child, TransactionSystem transSystem) {
-        super("Deposit and Withdraw");
+        super("Deposit and Withdraw - Welcome, " + child.getUsername());
         this.child = child;
         this.transSystem = transSystem;
 
-        // Create Swing components and arrange them using a layout manager
-        titleLabel = new JLabel("Deposit and Withdraw");
+        // Load background image
+        ImageIcon backgroundImage = new ImageIcon("src/main/resources/Image/ChildMenuBack.png");
+        JLabel backgroundLabel = new JLabel(backgroundImage);
+        setContentPane(backgroundLabel);
+
+        // Ensure layout manager of JLabel is null to freely position components
+        backgroundLabel.setLayout(null);
+
+        // Title label setup
+        titleLabel = new JLabel("<html><div style='text-align: center;'>" +
+                "<span style='font-size: 40px;'>Deposit and Withdraw</span><br/>" +
+                "<span style='font-size: 30px; color: orange;'>Welcome, " + child.getUsername() + "</span>" +
+                "</div></html>", JLabel.CENTER);
+        titleLabel.setFont(new Font("Arial", Font.PLAIN, 30));
+        titleLabel.setBounds(150, 20, 1000, 100); // Adjust position and size
+        backgroundLabel.add(titleLabel);
+
+        // Balance label setup
+        balanceLabel = new JLabel("Account Balance: " + child.getBalance());
+        balanceLabel.setFont(new Font("Arial", Font.PLAIN, 30));
+        balanceLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        balanceLabel.setBounds(400, 150, 500, 50); // Adjust position and size
+        backgroundLabel.add(balanceLabel);
+
+        // Amount label setup
         amountLabel = new JLabel("Amount:");
+        amountLabel.setFont(new Font("Arial", Font.PLAIN, 30));
+        amountLabel.setBounds(350, 250, 150, 50); // Adjust position and size
+        backgroundLabel.add(amountLabel);
+
+        // Amount field setup
         amountField = new JTextField(10);
+        amountField.setFont(new Font("Arial", Font.PLAIN, 30));
+        amountField.setBounds(520, 250, 300, 50); // Adjust position and size
+        backgroundLabel.add(amountField);
+
+        // Radio buttons setup
         depositRadioButton = new JRadioButton("Deposit");
+        depositRadioButton.setFont(new Font("Arial", Font.PLAIN, 30));
+        depositRadioButton.setOpaque(false);
+
         TDRadioButton = new JRadioButton("Term Deposit");
+        TDRadioButton.setToolTipText("<html><span style='font-size:16px;'>A term deposit is a fixed-term investment where you deposit a certain amount of money for a specific period,<br> and you earn a fixed interest rate on your deposit. You cannot withdraw the money before the term ends without incurring penalties.</span></html>");
+        TDRadioButton.setFont(new Font("Arial", Font.PLAIN, 30));
+        TDRadioButton.setOpaque(false);
+
         withdrawRadioButton = new JRadioButton("Withdraw");
-        submitButton = new JButton("Submit");
-        cancelButton = new JButton("Cancel");
-        balance = new JLabel("Account Balance: " + child.getBalance());
+        withdrawRadioButton.setFont(new Font("Arial", Font.PLAIN, 30));
+        withdrawRadioButton.setOpaque(false);
 
         // Set deposit radio button selected by default
         depositRadioButton.setSelected(true);
@@ -51,37 +87,67 @@ public class DepositWithdrawWindow extends JFrame {
         buttonGroup.add(TDRadioButton);
         buttonGroup.add(withdrawRadioButton);
 
-        // Add action listeners for buttons
+        // Create a panel for radio buttons
+        JPanel radioButtonPanel = new JPanel();
+        radioButtonPanel.setOpaque(false);
+        radioButtonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 0));
+        radioButtonPanel.add(depositRadioButton);
+        radioButtonPanel.add(TDRadioButton);
+        radioButtonPanel.add(withdrawRadioButton);
+        radioButtonPanel.setBounds(300, 350, 600, 50); // Adjust position and size
+        backgroundLabel.add(radioButtonPanel);
+
+        // Submit and Cancel buttons setup
+        submitButton = createColoredButton("Submit");
+        cancelButton = createColoredButton("Cancel");
+
+        // Create a panel for buttons
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setOpaque(false);
+        buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 50, 0));
+        buttonPanel.add(submitButton);
+        buttonPanel.add(cancelButton);
+        buttonPanel.setBounds(350, 500, 500, 60); // Adjust position and size
+        backgroundLabel.add(buttonPanel);
+
+        // Insert image at the bottom left corner
+        ImageIcon depositImage = new ImageIcon("src/main/resources/Image/depositimage.png");
+        JLabel depositImageLabel = new JLabel(depositImage);
+        Dimension imageSize = new Dimension(depositImage.getIconWidth(), depositImage.getIconHeight());
+        depositImageLabel.setSize(imageSize);
+        depositImageLabel.setLocation(0, backgroundLabel.getHeight() - depositImageLabel.getHeight());
+        backgroundLabel.add(depositImageLabel);
+
+        // Setup event handlers for buttons
+        setupEventHandlers();
+
+        // Frame properties
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setSize(1290, 800);
+        setLocationRelativeTo(null);
+        setVisible(true);
+
+        // Ensure the image is correctly positioned after the window is displayed
+        SwingUtilities.invokeLater(() -> {
+            depositImageLabel.setLocation(0, backgroundLabel.getHeight() - depositImageLabel.getHeight());
+        });
+    }
+
+    private void setupEventHandlers() {
         submitButton.addActionListener(e -> handleTransaction());
         cancelButton.addActionListener(e -> this.dispose()); // Close window on cancel
+    }
 
-        // Set layout manager for the frame
-
-        setLayout(new GridLayout(5, 2));
-
-        // Add Swing components to the frame
-        add(titleLabel);
-        add(new JLabel()); // Placeholder
-
-        add(balance);
-        add(new JLabel());
-
-        add(amountLabel);
-        add(amountField);
-
-        add(new JLabel()); // Placeholder
-
-        add(depositRadioButton);
-        add(TDRadioButton);
-        add(withdrawRadioButton);
-        add(submitButton);
-        add(cancelButton);
-
-        // Set frame properties
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        pack();
-        setLocationRelativeTo(null); // Center the window on screen
-        setVisible(true);
+    private JButton createColoredButton(String text) {
+        JButton button = new JButton(text);
+        button.setFont(new Font("Arial", Font.PLAIN, 30)); // Adjusted font size
+        button.setBackground(new Color(255, 204, 102)); // Light yellow button color
+        button.setOpaque(true);
+        button.setBorderPainted(false);
+        button.setFocusPainted(false);
+        button.setPreferredSize(new Dimension(200, 50)); // Adjust preferred size for the button
+        button.setMargin(new Insets(10, 20, 10, 20)); // Adjust margin to make the button look less "thick"
+        return button;
     }
 
     private void handleTransaction() {
