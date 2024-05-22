@@ -27,26 +27,44 @@ public class TDcheckDetailWindow extends JFrame {
         this.amount = amount;
 
         TimeLabel = new JLabel("Months:");
+        TimeLabel.setFont(new Font("Arial", Font.BOLD, 14));
         blank = new JLabel("           ");
 
         submitButton = new JButton("Submit");
+        submitButton.setFont(new Font("Arial", Font.BOLD, 14));
+        submitButton.setForeground(Color.GREEN);
+
         cancelButton = new JButton("Cancel");
+        cancelButton.setFont(new Font("Arial", Font.BOLD, 14));
+        cancelButton.setForeground(Color.RED);
 
         TimeField = new JTextField(10);
+        TimeField.setFont(new Font("Arial", Font.PLAIN, 14));
 
         submitButton.addActionListener(e -> handler());
         cancelButton.addActionListener(e -> this.dispose());
 
-        setLayout(new GridLayout(3, 2));
+        JPanel panel = new JPanel(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(10, 10, 10, 10);
 
-        this.getContentPane().add(new JLabel("The current profit rate is " + trans.getCurrentProfitRate() + " per months"));
-        this.getContentPane().add(blank);
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        panel.add(new JLabel("The current profit rate is " + trans.getCurrentProfitRate() + " per months"), gbc);
 
-        this.getContentPane().add(TimeLabel);
-        this.getContentPane().add(TimeField);
+        gbc.gridy = 1;
+        panel.add(TimeLabel, gbc);
 
-        this.getContentPane().add(submitButton);
-        this.getContentPane().add(cancelButton);
+        gbc.gridy = 2;
+        panel.add(TimeField, gbc);
+
+        gbc.gridy = 3;
+        panel.add(submitButton, gbc);
+
+        gbc.gridy = 4;
+        panel.add(cancelButton, gbc);
+
+        this.getContentPane().add(panel);
 
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         pack();
