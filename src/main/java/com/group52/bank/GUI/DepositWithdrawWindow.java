@@ -70,6 +70,7 @@ public class DepositWithdrawWindow extends JFrame {
         depositRadioButton.setOpaque(false);
 
         TDRadioButton = new JRadioButton("Term Deposit");
+        TDRadioButton.setToolTipText("<html><span style='font-size:16px;'>A term deposit is a fixed-term investment where you deposit a certain amount of money for a specific period,<br> and you earn a fixed interest rate on your deposit. You cannot withdraw the money before the term ends without incurring penalties.</span></html>");
         TDRadioButton.setFont(new Font("Arial", Font.PLAIN, 30));
         TDRadioButton.setOpaque(false);
 

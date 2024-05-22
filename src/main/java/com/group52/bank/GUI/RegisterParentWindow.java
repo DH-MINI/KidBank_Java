@@ -25,10 +25,10 @@ public class RegisterParentWindow extends JFrame {
         this.authSystem = authSystem;
 
         // Create Swing components and arrange them using a layout manager
-        titleLabel = new JLabel("Parent Registration");
-        usernameLabel = new JLabel("Username:");
+        titleLabel = new JLabel("Parent Registration:",JLabel.CENTER);
+        usernameLabel = new JLabel("Username:",JLabel.CENTER);
         usernameField = new JTextField(15);
-        passwordLabel = new JLabel("Password:");
+        passwordLabel = new JLabel("Password:",JLabel.CENTER);
         passwordField = new JPasswordField(15);
         registerButton = new JButton("Register");
         cancelButton = new JButton("Cancel");
@@ -38,23 +38,56 @@ public class RegisterParentWindow extends JFrame {
         cancelButton.addActionListener(e -> this.dispose()); // Close window on cancel
 
         // Set layout manager for the frame
-        setLayout(new GridLayout(4, 2));
+        JPanel jp01 = new JPanel();
+        jp01.setBackground(Color.cyan);
 
+        JPanel jp011 = new JPanel();
+        JPanel jp012 = new JPanel();
+        JPanel jp013 = new JPanel();
+        JPanel jp014 = new JPanel();
+        JPanel jp015 = new JPanel();
+        JPanel jp016 = new JPanel();
+
+        jp011.setBackground(Color.PINK);
+        jp012.setBackground(Color.PINK);
+        jp013.setBackground(Color.PINK);
+        jp014.setBackground(Color.PINK);
+        jp014.setBackground(Color.PINK);
+        jp015.setBackground(Color.PINK);
+        jp016.setBackground(Color.PINK);
+
+        JPanel jp02 = new JPanel();
+        jp02.setBackground(Color.DARK_GRAY);
+
+        JPanel jp03 = new JPanel((new GridLayout(7, 2)));
+        jp03.setBackground(Color.cyan);
         // Add Swing components to the frame
-        add(titleLabel);
-        add(new JLabel()); // Placeholder for empty cell
-        add(usernameLabel);
-        add(usernameField);
-        add(passwordLabel);
-        add(passwordField);
-        add(registerButton);
-        add(cancelButton);
+        jp03.add(titleLabel);
+        jp03.add(jp01);
+        jp03.add(jp011);
+        jp03.add(jp012);
+        jp03.add(usernameLabel);
+        jp03.add(usernameField);
+        jp03.add(jp013);
+        jp03.add(jp014);
+        jp03.add(passwordLabel);
+        jp03.add(passwordField);
+        jp03.add(jp015);
+        jp03.add(jp016);
+        jp03.add(registerButton);
+        jp03.add(cancelButton);
+
+        JLabel labImageBJ = new JLabel(new ImageIcon("src/main/resources/Image/bg01.png"),JLabel.CENTER);
+
+        this.setLayout(new GridBagLayout());
+        this.add(labImageBJ);
+        this.add(jp02);
+        this.add(jp03,new GridBagConstraints());
 
         // Set frame properties
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        pack();
-        setLocationRelativeTo(null); // Center the window on screen
-        setVisible(true);
+        this.setSize(800, 600);
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        this.setVisible(true);
     }
 
     private void handleRegister() {

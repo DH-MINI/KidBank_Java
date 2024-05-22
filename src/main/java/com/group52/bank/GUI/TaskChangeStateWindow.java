@@ -176,6 +176,7 @@ public class TaskChangeStateWindow extends JFrame {
         String newState = (String) newStateComboBox.getSelectedItem();
         System.out.println(taskId);
         System.out.println(newState);
+
         if (taskSystem.changeTaskState(taskId, newState, parent)) {
             JOptionPane.showMessageDialog(this, "Task state changed successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
             this.dispose(); // Close window on success

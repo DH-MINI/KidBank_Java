@@ -56,7 +56,7 @@ public class TaskMenuWindow extends JFrame {
             titleLabel.setFont(new Font("Arial", Font.PLAIN, 28)); // This size is overridden by HTML
 
             publishTaskButton = createColoredButton("Publish Task");
-            manageTasksButton = createColoredButton("Publish Task");
+            manageTasksButton = createColoredButton("Change Task State");
             viewTaskHistoryButton = createColoredButton("View Task History");
             backButton = createColoredButton("Back to Parent Menu");
 

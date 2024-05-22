@@ -56,7 +56,15 @@ public class TransactionMenuWindow extends JFrame {
         buttonContainer.add(changeStateButton);
         buttonContainer.add(backButton);
         viewHistoryButton.addActionListener(e -> handleViewTransactionHistory());;
-        changeStateButton.addActionListener(e -> handleChangeTransactionState()); // Optional: Open separate window for managing tasks
+        changeStateButton.addActionListener(e -> {
+            try {
+                handleChangeTransactionState();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            } catch (FontFormatException ex) {
+                throw new RuntimeException(ex);
+            }
+        }); // Optional: Open separate window for managing tasks
         backButton.addActionListener(e -> this.dispose()); // Close window on back
 
         viewHistoryButton.setPreferredSize(new Dimension(100, 10));
@@ -137,6 +145,8 @@ public class TransactionMenuWindow extends JFrame {
             JOptionPane.showMessageDialog(this, "No unreviewed transactions found.", "Information", JOptionPane.INFORMATION_MESSAGE);
         }
     }
+
+
 
     private JButton createColoredButton(String text) {
         JButton button = new JButton(text);
