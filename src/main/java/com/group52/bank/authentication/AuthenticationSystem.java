@@ -16,12 +16,23 @@ import java.util.Map;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+/**
+ * This class represents the authentication system of the bank application.
+ * It manages the users and their authentication.
+ */
 public class AuthenticationSystem {
 
     private final Map<String, User> users = new HashMap<>();
     private final String parentCSV;
     private final String childCSV;
 
+
+    /**
+     * Constructs an AuthenticationSystem with the given CSV files for parents and children.
+     *
+     * @param parentCSV the CSV file for parents
+     * @param childCSV the CSV file for children
+     */
     public AuthenticationSystem(String parentCSV, String childCSV) {
         this.parentCSV = parentCSV;
         this.childCSV = childCSV;
@@ -29,6 +40,12 @@ public class AuthenticationSystem {
         loadUsersFromCSV(childCSV, false);
     }
 
+    /**
+     * Loads users from a CSV file.
+     *
+     * @param filename the name of the CSV file
+     * @param isParent true if the users are parents, false if they are children
+     */
     private void loadUsersFromCSV(String filename, boolean isParent) {
         try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
             String line;
@@ -51,6 +68,12 @@ public class AuthenticationSystem {
         }
     }
 
+    /**
+     * Loads children data from a CSV file.
+     *
+     * @return a list of children
+     */
+
     public List<Child> loadChildrenData() {
         List<Child> children = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(childCSV))) {
@@ -68,7 +91,12 @@ public class AuthenticationSystem {
         }
         return children;
     }
-
+    /**
+     * Finds a child by their username.
+     *
+     * @param username the username of the child
+     * @return the child if they exist, null otherwise
+     */
     public Child findChildByUsername(String username) {
         User user = users.get(username);
         if (user instanceof Child) {
@@ -76,7 +104,12 @@ public class AuthenticationSystem {
         }
         return null;
     }
-
+    /**
+     * Registers a new user.
+     *
+     * @param user the user to register
+     * @return true if the registration was successful, false otherwise
+     */
     public boolean register(User user) {
         if (users.containsKey(user.getUsername())) {
             return false; // Username already exists
@@ -95,7 +128,13 @@ public class AuthenticationSystem {
         }
         return true;
     }
-
+    /**
+     * Logs in a user.
+     *
+     * @param username the username of the user
+     * @param password the password of the user
+     * @return the user if the login was successful, null otherwise
+     */
     public User login(String username, String password) {
         User user = users.get(username);
         if (user != null && verifyPassword(user.getPassword(), password)) {
@@ -104,7 +143,13 @@ public class AuthenticationSystem {
         }
         return null; // Invalid username or password
     }
-
+    /**
+     * Verifies a password against a hashed password.
+     *
+     * @param hashedPassword the hashed password
+     * @param inputPassword the input password
+     * @return true if the passwords match, false otherwise
+     */
     private boolean verifyPassword(String hashedPassword, String inputPassword) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");

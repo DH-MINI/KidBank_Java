@@ -8,7 +8,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-
+/**
+ * This class represents the window for checking the details of a term deposit in the banking application.
+ */
 public class TDcheckDetailWindow extends JFrame {
     private Child child;
     private TransactionSystem trans;
@@ -18,7 +20,13 @@ public class TDcheckDetailWindow extends JFrame {
     private JButton submitButton, cancelButton;
 
     private JTextField TimeField;
-
+    /**
+     * Constructs a new TDcheckDetailWindow with the given child, transaction system, and amount.
+     *
+     * @param child the child user
+     * @param trans the transaction system
+     * @param amount the amount for the term deposit
+     */
     public TDcheckDetailWindow(Child child, TransactionSystem trans, double amount){
         super("Checking details of Term Deposit");
 
@@ -72,6 +80,11 @@ public class TDcheckDetailWindow extends JFrame {
         setVisible(true);
     }
 
+    /**
+     * Handles the action of submitting the term deposit details.
+     *
+     * @return true if the details are submitted successfully, false otherwise
+     */
     private boolean handler(){
         int months = 0;
 

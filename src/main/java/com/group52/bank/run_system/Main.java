@@ -11,7 +11,10 @@ import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-
+/**
+ * This class represents the main entry point of the banking application.
+ * It provides the user interface for the application and handles user interactions.
+ */
 public class Main {
 
     private static final String PARENT_CSV = "src/main/resources/datacsv/parents.csv";
@@ -19,7 +22,13 @@ public class Main {
     private static final String TRANSACTION_HISTORY_CSV = "src/main/resources/datacsv/transactionHistory.csv";
     private static final String TASK_CSV = "src/main/resources/datacsv/taskHistory.csv";
     private static final String profitRateCSV = "src/main/resources/datacsv/profitRate.csv";
-
+    /**
+     * The main method of the banking application.
+     * It initializes the authentication and transaction systems, and provides a user interface for user interactions.
+     *
+     * @param args command line arguments
+     * @throws Exception if an error occurs during the execution of the application
+     */
     public static void main(String[] args) throws Exception {
         Scanner scanner = new Scanner(System.in);
         AuthenticationSystem authSystem = new AuthenticationSystem(PARENT_CSV, CHILD_CSV);
@@ -68,7 +77,13 @@ public class Main {
             }
         }
     }
-
+    /**
+     * Handles the registration of a new parent user.
+     *
+     * @param scanner the scanner for user input
+     * @param authSystem the authentication system
+     * @throws Exception if an error occurs during the registration process
+     */
     private static void registerParent(Scanner scanner, AuthenticationSystem authSystem) throws Exception {
         System.out.println("Parent Registration:");
         System.out.print("Username: ");
@@ -82,7 +97,13 @@ public class Main {
             System.out.println("Registration failed. Username already exists.");
         }
     }
-
+    /**
+     * Handles the registration of a new child user.
+     *
+     * @param scanner the scanner for user input
+     * @param authSystem the authentication system
+     * @throws Exception if an error occurs during the registration process
+     */
     private static void registerChild(Scanner scanner, AuthenticationSystem authSystem) throws Exception {
         System.out.println("Child Registration:");
         System.out.print("Username: ");
@@ -96,7 +117,17 @@ public class Main {
             System.out.println("Registration failed. Username already exists.");
         }
     }
-
+    /**
+     * Handles the parent menu of the banking application.
+     *
+     * @param scanner the scanner for user input
+     * @param parent the parent user
+     * @param children the list of child users
+     * @param authSystem the authentication system
+     * @param transSystem the transaction system
+     * @param taskSystem the task system
+     * @throws Exception if an error occurs during the handling of the parent menu
+     */
     private static void handleParentMenu(Scanner scanner, Parent parent, List<Child> children, AuthenticationSystem authSystem, TransactionSystem transSystem, TaskSystem taskSystem) throws Exception {
         while (true) {
             System.out.println("\nParent Menu:");
@@ -145,7 +176,12 @@ public class Main {
             }
         }
     }
-
+    /**
+     * Handles the transaction management menu of the banking application.
+     *
+     * @param scanner the scanner for user input
+     * @param transSystem the transaction system
+     */
     private static void handleTransactionManagement(Scanner scanner, TransactionSystem transSystem) {
         while (true) {
             System.out.println("\nTransaction Management:");
@@ -189,7 +225,13 @@ public class Main {
         }
     }
 
-
+    /**
+     * Handles the task management submenu of the banking application.
+     *
+     * @param scanner the scanner for user input
+     * @param taskSystem the task system
+     * @param parent the parent user
+     */
     private static void handleTaskManagementSubMenu(Scanner scanner, TaskSystem taskSystem, Parent parent) {
         while (true) {
             System.out.println("\nTask Management Submenu:");
@@ -249,6 +291,14 @@ public class Main {
             }
         }
     }
+    /**
+     * Handles the child menu of the banking application.
+     *
+     * @param scanner the scanner for user input
+     * @param child the child user
+     * @param transSystem the transaction system
+     * @param taskSystem the task system
+     */
     private static void handleChildMenu(Scanner scanner, Child child, TransactionSystem transSystem, TaskSystem taskSystem) {
         while (true) {
             System.out.println("\nChild Menu:");
@@ -315,6 +365,13 @@ public class Main {
             }
         }
     }
+    /**
+     * Handles the child task menu of the banking application.
+     *
+     * @param scanner the scanner for user input
+     * @param child the child user
+     * @param taskSystem the task system
+     */
     private static void handleChildTaskMenu(Scanner scanner, Child child, TaskSystem taskSystem) {
         while (true) {
             System.out.println("\nTask Management:");

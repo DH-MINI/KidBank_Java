@@ -9,7 +9,9 @@ import com.group52.bank.transaction.TransactionSystem;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
-
+/**
+ * This class represents the transaction management menu window in the banking application.
+ */
 public class TransactionMenuWindow extends JFrame {
 
     private TransactionSystem transSystem;
@@ -19,7 +21,12 @@ public class TransactionMenuWindow extends JFrame {
     private JButton viewHistoryButton;
     private JButton changeStateButton;
     private JButton backButton;
-
+    /**
+     * Constructs a new TransactionMenuWindow with the given transaction system and parent menu window.
+     *
+     * @param transSystem the transaction system
+     * @param parentMenuWindow the parent menu window
+     */
     public TransactionMenuWindow(TransactionSystem transSystem, ParentMenuWindow parentMenuWindow) {
         super("Transaction Management");
         this.transSystem = transSystem;
@@ -130,13 +137,20 @@ public class TransactionMenuWindow extends JFrame {
 //        setLocationRelativeTo(null); // Center the window on screen
 //        setVisible(true);
     }
-
+    /**
+     * Handles the action of viewing the transaction history.
+     */
     private void handleViewTransactionHistory() {
 
         transSystem.viewTransactionHistory(); // Call existing method for console output (optional)
         new ViewTransactionHistoryWindow(transSystem).setVisible(true); // Open separate window for detailed history
     }
-
+    /**
+     * Handles the action of changing the transaction state.
+     *
+     * @throws IOException if an I/O error occurs
+     * @throws FontFormatException if the font format is not recognized
+     */
     private void handleChangeTransactionState() throws IOException, FontFormatException {
         if (transSystem.viewUncheckedTransactionHistory()) {
             // Open a separate window for selecting transaction and state change
@@ -147,7 +161,12 @@ public class TransactionMenuWindow extends JFrame {
     }
 
 
-
+    /**
+     * Creates a colored button with the given text.
+     *
+     * @param text the text to display on the button
+     * @return the created button
+     */
     private JButton createColoredButton(String text) {
         JButton button = new JButton(text);
         button.setFont(new Font("Arial", Font.PLAIN, 24)); // Decrease font size

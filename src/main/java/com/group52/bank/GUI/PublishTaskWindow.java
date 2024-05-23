@@ -6,7 +6,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.time.LocalDate;
 import java.util.Date;
-
+/**
+ * This class represents the window for publishing a task in the banking application.
+ */
 public class PublishTaskWindow extends JFrame {
 
     private TaskSystem taskSystem;
@@ -21,7 +23,12 @@ public class PublishTaskWindow extends JFrame {
     private DateChooser dateChooser;  // 使用 DateChooser 组件
     private JButton publishButton;
     private JButton cancelButton;
-
+    /**
+     * Constructs a new PublishTaskWindow with the given task system and task menu window.
+     *
+     * @param taskSystem the task system
+     * @param taskMenuWindow the task menu window
+     */
     public PublishTaskWindow(TaskSystem taskSystem, TaskMenuWindow taskMenuWindow) {
         super("Publish Task");
         this.taskSystem = taskSystem;
@@ -111,7 +118,9 @@ public class PublishTaskWindow extends JFrame {
         setLocationRelativeTo(null); // 居中窗口
         setVisible(true);
     }
-
+    /**
+     * Handles the publishing of a task.
+     */
     private void handlePublish() {
         String description = descriptionField.getText();
         double reward;

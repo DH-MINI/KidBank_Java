@@ -15,7 +15,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.io.IOException;
-
+/**
+ * This class represents the window for changing the state of a task in the banking application.
+ */
 public class TaskChangeStateWindow extends JFrame {
 
     private TaskSystem taskSystem;
@@ -35,7 +37,13 @@ public class TaskChangeStateWindow extends JFrame {
     private ImageIcon backgroundImage = new ImageIcon("src/main/resources/Image/ChildMenuBack.png");
     private ImageIcon LabelImage = new ImageIcon("src/main/resources/Image/Label1.png");
     private JPanel centerPanel;
-
+    /**
+     * Constructs a new TaskChangeStateWindow with the given task system, task menu window, and parent.
+     *
+     * @param taskSystem the task system
+     * @param taskMenuWindow the task menu window
+     * @param parent the parent user
+     */
     public TaskChangeStateWindow(TaskSystem taskSystem, TaskMenuWindow taskMenuWindow, Parent parent) throws IOException, FontFormatException {
         super("Change Task State");
         this.taskSystem = taskSystem;
@@ -170,7 +178,9 @@ public class TaskChangeStateWindow extends JFrame {
         setLocationRelativeTo(null); // Center the window on screen
         setVisible(true);
     }
-
+    /**
+     * Handles the change of a task's state.
+     */
     private void handleChangeState() {
         String taskId = taskIdField.getText();
         String newState = (String) newStateComboBox.getSelectedItem();
@@ -185,7 +195,11 @@ public class TaskChangeStateWindow extends JFrame {
             JOptionPane.showMessageDialog(this, "Failed to change task state. Task ID not found or invalid state.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-
+    /**
+     * Retrieves a table of tasks.
+     *
+     * @return the created table of tasks
+     */
     private JTable getTasksTable(){
         List<Task> tasks = taskSystem.getTaskHistory();
         if (tasks.isEmpty()) {
@@ -219,6 +233,12 @@ public class TaskChangeStateWindow extends JFrame {
 
         return table;
     }
+    /**
+     * Creates a colored button with the given text.
+     *
+     * @param text the text to display on the button
+     * @return the created button
+     */
     private JButton createColoredButton(String text) throws IOException, FontFormatException {
         JButton button = new JButton(text);
         button.setFont(new CreateNewFont("PermanentMarker", 37f).getFont()); // Decrease font size

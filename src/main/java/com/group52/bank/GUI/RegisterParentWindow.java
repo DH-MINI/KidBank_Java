@@ -7,7 +7,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+/**
+ * This class represents the registration window for parents in the banking application.
+ */
 public class RegisterParentWindow extends JFrame {
 
     private AuthenticationSystem authSystem;
@@ -19,7 +21,11 @@ public class RegisterParentWindow extends JFrame {
     private JPasswordField passwordField;
     private JButton registerButton;
     private JButton cancelButton;
-
+    /**
+     * Constructs a new RegisterParentWindow with the given authentication system.
+     *
+     * @param authSystem the authentication system
+     */
     public RegisterParentWindow(AuthenticationSystem authSystem) {
         super("Parent Registration");
         this.authSystem = authSystem;
@@ -89,7 +95,9 @@ public class RegisterParentWindow extends JFrame {
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setVisible(true);
     }
-
+    /**
+     * Handles the registration of a parent.
+     */
     private void handleRegister() {
         String username = usernameField.getText();
         String password = new String(passwordField.getPassword());

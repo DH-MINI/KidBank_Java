@@ -8,7 +8,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-
+/**
+ * This class represents the child task menu window in the banking application.
+ */
 public class ChildTaskMenuWindow extends JFrame {
 
     private TaskSystem taskSystem;
@@ -20,7 +22,13 @@ public class ChildTaskMenuWindow extends JFrame {
     private JButton confirmCompletionButton;
     private JButton backButton;
     private Child child;
-
+    /**
+     * Constructs a new ChildTaskMenuWindow with the given parameters.
+     *
+     * @param taskSystem the task system
+     * @param childMenuWindow the child menu window
+     * @param child the child user
+     */
     public ChildTaskMenuWindow(TaskSystem taskSystem, ChildMenuWindow childMenuWindow, Child child) {
         super("Task Management");
         this.taskSystem = taskSystem;
@@ -82,7 +90,12 @@ public class ChildTaskMenuWindow extends JFrame {
         setLocationRelativeTo(null);
         setVisible(true);
     }
-
+    /**
+     * Creates a colored button with the given text.
+     *
+     * @param text the text for the button
+     * @return the created button
+     */
     private JButton createColoredButton(String text) {
         JButton button = new JButton(text);
         button.setFont(new Font("Arial", Font.PLAIN, 24)); // Decrease font size
@@ -94,7 +107,9 @@ public class ChildTaskMenuWindow extends JFrame {
         button.setMargin(new Insets(10, 20, 10, 20)); // Adjust margin to make the button look less "thick"
         return button;
     }
-
+    /**
+     * Sets up the event handlers for the buttons.
+     */
     private void setupEventHandlers() {
         viewTasksButton.addActionListener(e -> handleViewTasks());
         receiveTaskButton.addActionListener(e -> handleReceiveTask());
@@ -109,17 +124,23 @@ public class ChildTaskMenuWindow extends JFrame {
         });
         backButton.addActionListener(e -> this.dispose()); // Close window on back
     }
-
+    /**
+     * Handles the view tasks action.
+     */
     private void handleViewTasks() {
         // Open a separate window for viewing task history
         new ViewTaskHistoryWindow(taskSystem).setVisible(true);
     }
-
+    /**
+     * Handles the receive task action.
+     */
     private void handleReceiveTask() {
         // Open a separate window for receiving tasks
         new ReceiveTaskWindow(taskSystem, this, this.child).setVisible(true);
     }
-
+    /**
+     * Handles the confirm completion action.
+     */
     private void handleConfirmCompletion() throws IOException, FontFormatException {
         // Open a separate window for confirming task completion
         new ConfirmCompletionWindow(taskSystem, this, this.child).setVisible(true);

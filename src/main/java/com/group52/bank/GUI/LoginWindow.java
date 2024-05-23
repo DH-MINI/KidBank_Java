@@ -8,7 +8,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+/**
+ * This class represents the login window in the banking application.
+ */
 public class LoginWindow extends JFrame {
 
     private ChildrensBankingApp app;
@@ -19,7 +21,11 @@ public class LoginWindow extends JFrame {
     private JButton loginButton;
     private JButton registerButton;
     public JPanel jp01;
-
+    /**
+     * Constructs a new LoginWindow with the given banking application.
+     *
+     * @param app the banking application
+     */
     public LoginWindow(ChildrensBankingApp app) {
         super("Login");
         this.app = app;
@@ -91,7 +97,9 @@ public class LoginWindow extends JFrame {
         this.setLocationRelativeTo(null); // 将窗口置于屏幕中央
         this.setVisible(true);
     }
-
+    /**
+     * Handles the login action.
+     */
     private void handleLogin() {
         // Get username and password from text fields
         String username = usernameField.getText();
@@ -113,7 +121,9 @@ public class LoginWindow extends JFrame {
             JOptionPane.showMessageDialog(this, "Invalid username or password.", "Login Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-
+    /**
+     * Handles the register parent action.
+     */
     private void handleRegisterParent() {
         new RegisterParentWindow(app.authSystem).setVisible(true);
     }

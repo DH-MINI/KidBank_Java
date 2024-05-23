@@ -8,7 +8,9 @@ import java.awt.event.*;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-
+/**
+ * This class represents a date chooser component in the banking application.
+ */
 public class DateChooser extends JPanel {
     private Date initDate;
     private static Calendar now = Calendar.getInstance();
@@ -23,11 +25,17 @@ public class DateChooser extends JPanel {
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
     private boolean isShow = false;
     private Popup pop;
-
+    /**
+     * Constructs a new DateChooser with the current date.
+     */
     public DateChooser() {
         this(new Date());
     }
-
+    /**
+     * Constructs a new DateChooser with the given date.
+     *
+     * @param date the initial date
+     */
     public DateChooser(Date date) {
         initDate = date;
         select = Calendar.getInstance();
@@ -35,7 +43,11 @@ public class DateChooser extends JPanel {
         initPanel();
         initLabel();
     }
-
+    /**
+     * Returns the selected date.
+     *
+     * @return the selected date
+     */
     public Date getDate() {
         return select.getTime();
     }
@@ -376,7 +388,11 @@ public class DateChooser extends JPanel {
             });
         }
     }
-
+    /**
+     * The main method for testing the DateChooser class.
+     *
+     * @param args the command line arguments
+     */
     public static void main(String[] args) {
         JFrame frame = new JFrame("Date Chooser Test");
         DateChooser dateChooser = new DateChooser();

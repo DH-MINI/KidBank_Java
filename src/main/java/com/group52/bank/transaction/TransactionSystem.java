@@ -9,7 +9,10 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * This class represents a Transaction System in the banking application.
+ * It manages transactions, their history, and unchecked transactions.
+ */
 public class TransactionSystem {
 
     private final String transactionHistoryCSV;
@@ -18,7 +21,14 @@ public class TransactionSystem {
     private final String profitRateCSV;
     private final List<Transaction> transactionHistory;
     private List<Transaction> uncheckedTransHistory;
-  
+
+    /**
+     * Constructs a new TransactionSystem with the given transactionHistoryCSV, childCSV, and profitRateCSV.
+     *
+     * @param transactionHistoryCSV the transaction history CSV
+     * @param childCSV the child CSV
+     * @param profitRateCSV the profit rate CSV
+     */
     public TransactionSystem(String transactionHistoryCSV, String childCSV, String profitRateCSV) {
         this.transactionHistoryCSV = transactionHistoryCSV;
         this.childCSV = childCSV;
@@ -26,7 +36,11 @@ public class TransactionSystem {
         this.transactionHistory = loadTransactionHistory();
         this.uncheckedTransHistory = loadUncheckedTransHistory();
     }
-
+    /**
+     * Adds a new transaction to the transaction history.
+     *
+     * @param transaction the transaction to add
+     */
     public void addTransaction(Transaction transaction) {
         transactionHistory.add(transaction);
         if("Unchecked".equals(transaction.getState())) {
@@ -34,14 +48,20 @@ public class TransactionSystem {
         }
         saveTransactionHistory();
     }
-
+    /**
+     * Displays the transaction history.
+     */
     public void viewTransactionHistory() {
         System.out.println("Transaction History:");
         for (Transaction transaction : transactionHistory) {
             System.out.println(transaction.toString());
         }
     }
-
+    /**
+     * Displays the unchecked transaction history.
+     *
+     * @return true if there are unchecked transactions, false otherwise
+     */
     public boolean viewUncheckedTransactionHistory() {
         System.out.println("Unchecked Transaction History:");
         List<Transaction> uncheckedTransactions = new ArrayList<>();
@@ -60,7 +80,11 @@ public class TransactionSystem {
             return true;
         }
     }
-
+    /**
+     * Loads the transaction history from the CSV file.
+     *
+     * @return the transaction history
+     */
     private List<Transaction> loadTransactionHistory() {
         List<Transaction> history = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(transactionHistoryCSV))) {
@@ -89,7 +113,11 @@ public class TransactionSystem {
         }
         return history;
     }
-
+    /**
+     * Loads the unchecked transaction history.
+     *
+     * @return the unchecked transaction history
+     */
     public List<Transaction> loadUncheckedTransHistory(){
         List<Transaction> uncheckedTransactions = new ArrayList<>();
         for (Transaction transaction : transactionHistory) {
@@ -102,7 +130,9 @@ public class TransactionSystem {
         }
         return uncheckedTransactions;
     }
-
+    /**
+     * Saves the transaction history to the CSV file.
+     */
     public void saveTransactionHistory() {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(transactionHistoryCSV))) {
             for (Transaction transaction : transactionHistory) {
@@ -118,7 +148,12 @@ public class TransactionSystem {
             System.err.println("Error saving transaction history to CSV: " + e.getMessage());
         }
     }
-
+    /**
+     * Converts a transaction to a CSV string.
+     *
+     * @param transaction the transaction to convert
+     * @return the CSV string
+     */
     private String transactionToCSV(Transaction transaction) {
         return String.join(",", transaction.getTransactionId(),
                 String.valueOf(transaction.getAmount()),
@@ -128,7 +163,12 @@ public class TransactionSystem {
                 transaction.getDestination(),
                 transaction.getState());
     }
-
+    /**
+     * Converts a term deposit to a CSV string.
+     *
+     * @param TD the term deposit to convert
+     * @return the CSV string
+     */
     private String TDtoCSV(TermDeposit TD){
         return String.join(",", TD.getTransactionId(),
                 String.valueOf(TD.getAmount()),
@@ -141,7 +181,13 @@ public class TransactionSystem {
                 String.valueOf(TD.getProfitRate()),
                 String.valueOf(TD.getMonths()));
     }
-
+    /**
+     * Changes the state of the transaction with the given transactionId to the given newState.
+     *
+     * @param transactionId the transaction ID
+     * @param newState the new state
+     * @return true if the state was changed successfully, false otherwise
+     */
     public boolean changeTransactionState(String transactionId, String newState) {
         int count = 0;
         for (Transaction transaction : transactionHistory) {
@@ -170,6 +216,11 @@ public class TransactionSystem {
         }
         return true;
     }
+    /**
+     * Updates the balance of the child involved in the given transaction.
+     *
+     * @param transaction the transaction
+     */
     private void updateChildBalance(Transaction transaction) {
         List<String> lines = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(childCSV))) {
@@ -208,7 +259,12 @@ public class TransactionSystem {
             System.err.println("Error writing updated child balance to CSV: " + e.getMessage());
         }
     }
-
+    /**
+     * Updates the saving goal of the child with the given childName to the given newSavingGoal.
+     *
+     * @param childName the child's name
+     * @param newSavingGoal the new saving goal
+     */
     public void updateChildSavingGoal(String childName, double newSavingGoal) {
         List<String> lines = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(childCSV))) {
@@ -236,16 +292,31 @@ public class TransactionSystem {
 
 
     }
-
+    /**
+     * Returns the transaction history.
+     *
+     * @return the transaction history
+     */
     public List<Transaction> getTransactionHistory() {
         return transactionHistory;
     }
-
+    /**
+     * Returns the unchecked transaction history.
+     *
+     * @return the unchecked transaction history
+     */
     public List<Transaction> getUncheckedTransHistory(){return uncheckedTransHistory; }
-
+    /**
+     * Updates the unchecked transaction history.
+     */
     public void uncheckedTransHistoryUpdate(){uncheckedTransHistory = loadUncheckedTransHistory(); }
 
 
+    /**
+     * Returns the current profit rate.
+     *
+     * @return the current profit rate
+     */
     public double getCurrentProfitRate(){
         double profitRate = 0;
         try (BufferedReader br = new BufferedReader(new FileReader(profitRateCSV))) {
@@ -266,7 +337,12 @@ public class TransactionSystem {
         }
         return profitRate;
     }
-
+    /**
+     * Sets the profit rate to the given newRate.
+     *
+     * @param newRate the new rate
+     * @return true if the rate was set successfully, false otherwise
+     */
     public boolean setProfitRate(double newRate){
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(profitRateCSV, true))) {
             bw.newLine();

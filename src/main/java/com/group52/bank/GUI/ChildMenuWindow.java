@@ -8,7 +8,9 @@ import com.group52.bank.authentication.AuthenticationSystem;
 
 import javax.swing.*;
 import java.awt.*;
-
+/**
+ * This class represents the child menu window in the banking application.
+ */
 public class ChildMenuWindow extends JFrame {
     private ChildrensBankingApp app;
     private Child child;
@@ -25,7 +27,15 @@ public class ChildMenuWindow extends JFrame {
     private JButton logoutButton;
 
     private JButton savingGoalButton;
-
+    /**
+     * Constructs a new ChildMenuWindow with the given parameters.
+     *
+     * @param app the banking application
+     * @param child the child user
+     * @param transSystem the transaction system
+     * @param taskSystem the task system
+     * @param authSystem the authentication system
+     */
     public ChildMenuWindow(ChildrensBankingApp app, Child child, TransactionSystem transSystem, TaskSystem taskSystem, AuthenticationSystem authSystem) {
         super("Child Menu - Welcome, " + child.getUsername());
         this.app = app;
@@ -107,7 +117,9 @@ public class ChildMenuWindow extends JFrame {
         setLocationRelativeTo(null);
         setVisible(true);
     }
-
+    /**
+     * Sets up the event handlers for the buttons.
+     */
     private void setupEventHandlers() {
 //        viewBalanceButton.addActionListener(e -> handleViewBalance());
         savingGoalButton.addActionListener(e -> handleSavingGoalWindow());
@@ -116,7 +128,12 @@ public class ChildMenuWindow extends JFrame {
         taskManagementButton.addActionListener(e -> handleChildTaskMenuWindow());
         logoutButton.addActionListener(e -> handleLogout());
     }
-
+    /**
+     * Creates a colored button with the given text.
+     *
+     * @param text the text for the button
+     * @return the created button
+     */
     private JButton createColoredButton(String text) {
         JButton button = new JButton(text);
         button.setFont(new Font("Arial", Font.PLAIN, 24)); // Decrease font size
@@ -129,23 +146,35 @@ public class ChildMenuWindow extends JFrame {
         return button;
     }
 
-
+    /**
+     * Handles the view balance action.
+     */
     private void handleViewBalance() {
         JOptionPane.showMessageDialog(this, "Your balance is: $" + child.getBalance(), "Balance", JOptionPane.INFORMATION_MESSAGE);
     }
 
+    /**
+     * Handles the view transaction history action.
+     */
     private void handleViewTransactionHistory() {
         new ViewTransactionHistoryWindow(transSystem).setVisible(true);
     }
-
+    /**
+     * Handles the deposit and withdraw action.
+     */
     private void handleDepositWithdraw() {
         new DepositWithdrawWindow(child, transSystem).setVisible(true);
     }
-
+    /**
+     * Handles the child task menu window action.
+     */
     private void handleChildTaskMenuWindow() {
         new ChildTaskMenuWindow(taskSystem, this, child).setVisible(true);
     }
 
+    /**
+     * Handles the logout action.
+     */
     private void handleLogout() {
         int confirmation = JOptionPane.showConfirmDialog(this, "Are you sure you want to logout?", "Logout Confirmation", JOptionPane.YES_NO_OPTION);
         if (confirmation == JOptionPane.YES_OPTION) {
@@ -153,7 +182,9 @@ public class ChildMenuWindow extends JFrame {
             app.loginWindow.setVisible(true);
         }
     }
-
+    /**
+     * Handles the saving goal window action.
+     */
     private void handleSavingGoalWindow(){
         new SavingGoalWindow(child, transSystem).setVisible(true);
 

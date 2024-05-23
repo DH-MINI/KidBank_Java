@@ -7,6 +7,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+/**
+ * This class represents the window for creating a child account in the banking application.
+ */
 public class CreateChildAccountWindow extends JFrame {
 
     private AuthenticationSystem authSystem;
@@ -19,7 +22,12 @@ public class CreateChildAccountWindow extends JFrame {
     private JPasswordField passwordField;
     private JButton createButton;
     private JButton cancelButton;
-
+    /**
+     * Constructs a new CreateChildAccountWindow with the given authentication system and parent menu window.
+     *
+     * @param authSystem the authentication system
+     * @param parentMenuWindow the parent menu window
+     */
     public CreateChildAccountWindow(AuthenticationSystem authSystem, ParentMenuWindow parentMenuWindow) {
         super("Create Child Account");
         this.authSystem = authSystem;
@@ -85,7 +93,9 @@ public class CreateChildAccountWindow extends JFrame {
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setVisible(true);
     }
-
+    /**
+     * Handles the creation of a new child account.
+     */
     private void handleCreateAccount() {
         String username = usernameField.getText();
         String password = new String(passwordField.getPassword());

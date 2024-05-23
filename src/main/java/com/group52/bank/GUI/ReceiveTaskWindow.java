@@ -10,7 +10,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
-
+/**
+ * This class represents the window for receiving a task in the banking application.
+ */
 public class ReceiveTaskWindow extends JFrame {
 
     private TaskSystem taskSystem;
@@ -26,7 +28,13 @@ public class ReceiveTaskWindow extends JFrame {
 
     private JTable unrecTasksTable;
     private JScrollPane scrollPane;
-
+    /**
+     * Constructs a new ReceiveTaskWindow with the given task system, child task menu window, and child.
+     *
+     * @param taskSystem the task system
+     * @param childTaskMenuWindow the child task menu window
+     * @param child the child user
+     */
     public ReceiveTaskWindow(TaskSystem taskSystem, ChildTaskMenuWindow childTaskMenuWindow, Child child) {
         super("Receive Task");
         this.taskSystem = taskSystem;
@@ -103,7 +111,9 @@ public class ReceiveTaskWindow extends JFrame {
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setVisible(true);
     }
-
+    /**
+     * Handles the receiving of a task.
+     */
     private void handleReceiveTask() {
         String receiveTaskId = taskIdField.getText();
         if (taskSystem.receiveTask(receiveTaskId, child.getUsername())) {
@@ -114,7 +124,11 @@ public class ReceiveTaskWindow extends JFrame {
             JOptionPane.showMessageDialog(this, "Failed to receive task. Task ID not found.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-
+    /**
+     * Creates a table for unreceived tasks.
+     *
+     * @return the created table
+     */
     private JTable createUnrecTaskTable() {
         List<Task> tasks = taskSystem.getUnreceivedTasks();
         if (tasks.isEmpty()) {

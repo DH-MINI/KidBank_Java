@@ -4,13 +4,23 @@ import com.group52.bank.transaction.TransactionSystem;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 
+
+/**
+ * This class represents the window for setting the profit rate in the banking application.
+ */
 public class SetProfitRateWindow extends JFrame {
     private TransactionSystem trans;
     private JLabel currentRate, title;
     private JTextField rateField;
     private JButton apply, cancel;
 
+    /**
+     * Constructs a new SetProfitRateWindow with the given transaction system.
+     *
+     * @param trans the transaction system
+     */
     public SetProfitRateWindow(TransactionSystem trans){
         super("Set Profit Rate of Term Deposit");
 
@@ -64,7 +74,11 @@ public class SetProfitRateWindow extends JFrame {
         setLocationRelativeTo(null); // Center the window on screen
         setVisible(true);
     }
-
+    /**
+     * Handles the action of setting a new profit rate.
+     *
+     * @return true if the new rate is set successfully, false otherwise
+     */
     public boolean handler(){
         double newRate;
         try {

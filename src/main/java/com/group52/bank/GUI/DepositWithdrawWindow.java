@@ -7,7 +7,9 @@ import com.group52.bank.model.Transaction;
 import javax.swing.*;
 import java.awt.*;
 import java.time.LocalDateTime;
-
+/**
+ * This class represents a window for depositing and withdrawing in the banking application.
+ */
 public class DepositWithdrawWindow extends JFrame {
 
     private Child child;
@@ -22,7 +24,12 @@ public class DepositWithdrawWindow extends JFrame {
     private JButton submitButton;
     private JButton cancelButton;
     private JLabel balanceLabel;
-
+    /**
+     * Constructs a new DepositWithdrawWindow with the given child and transaction system.
+     *
+     * @param child the child user
+     * @param transSystem the transaction system
+     */
     public DepositWithdrawWindow(Child child, TransactionSystem transSystem) {
         super("Deposit and Withdraw - Welcome, " + child.getUsername());
         this.child = child;
@@ -132,12 +139,19 @@ public class DepositWithdrawWindow extends JFrame {
             depositImageLabel.setLocation(0, backgroundLabel.getHeight() - depositImageLabel.getHeight());
         });
     }
-
+    /**
+     * Sets up the event handlers for the buttons.
+     */
     private void setupEventHandlers() {
         submitButton.addActionListener(e -> handleTransaction());
         cancelButton.addActionListener(e -> this.dispose()); // Close window on cancel
     }
-
+    /**
+     * Creates a colored button with the given text.
+     *
+     * @param text the text for the button
+     * @return the created button
+     */
     private JButton createColoredButton(String text) {
         JButton button = new JButton(text);
         button.setFont(new Font("Arial", Font.PLAIN, 30)); // Adjusted font size
@@ -149,7 +163,9 @@ public class DepositWithdrawWindow extends JFrame {
         button.setMargin(new Insets(10, 20, 10, 20)); // Adjust margin to make the button look less "thick"
         return button;
     }
-
+    /**
+     * Handles the transaction.
+     */
     private void handleTransaction() {
         double amount;
         try {
