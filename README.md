@@ -44,6 +44,12 @@ mvn exec:java -Dexec.mainClass="com.group52.bank.GUI.ChildrensBankingApp"
 - **Task Management** : Parents can assign tasks to their children and manage them. The application supports viewing task history, changing task status, and receiving tasks. The child account also has the function of accepting tasks and marking tasks as completed, while the parent account side can set the interest rate of the fixed deposit, post new tasks, double confirm that the child's tasks have been completed and automatically remit money, and confirm the child's request to withdraw and withdraw money, and complete the increase and decrease of these amounts.
 
 Note that applications use CSV files to store data. Make sure the CSV file is in the correct directory specified in the code. In addition, the app has a number of special designs, including a lot of error handling and the use of hash encryption to protect user passwords.
+
+## JavaDoc
+
+The JavaDoc for this project can be found in the `src/main/resources/JavaDoc` directory.
+
+
 ## Troubleshooting
 
 If you encounter any issues while setting up or running the application, please check the error message in the console. Most common issues are related to file paths or missing dependencies.
