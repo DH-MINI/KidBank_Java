@@ -9,7 +9,9 @@ import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.List;
-
+/**
+ * This class represents the window for viewing the transaction history in the banking application.
+ */
 public class ViewTransactionHistoryWindow extends JFrame {
 
     private TransactionSystem transSystem;
@@ -18,7 +20,11 @@ public class ViewTransactionHistoryWindow extends JFrame {
     private JTable transactionTable;
     private JScrollPane scrollPane;
     private JButton closeButton;
-
+    /**
+     * Constructs a new ViewTransactionHistoryWindow with the given transaction system.
+     *
+     * @param transSystem the transaction system
+     */
     public ViewTransactionHistoryWindow(TransactionSystem transSystem) {
         super("Transaction History");
         this.transSystem = transSystem;
@@ -52,7 +58,11 @@ public class ViewTransactionHistoryWindow extends JFrame {
         // Change window background color
         getContentPane().setBackground(Color.LIGHT_GRAY);
     }
-
+    /**
+     * Creates a table of transactions.
+     *
+     * @return the created table of transactions
+     */
     private JTable createTransactionTable() {
         List<Transaction> transactions = transSystem.getTransactionHistory();
         if (transactions.isEmpty()) {

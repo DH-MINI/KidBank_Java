@@ -16,6 +16,10 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.io.IOException;
 
+/**
+ * This class represents a window for changing the state of a transaction.
+ */
+
 public class ChangeTransactionStateWindow extends JFrame {
 
     private TransactionSystem transSystem;
@@ -35,6 +39,15 @@ public class ChangeTransactionStateWindow extends JFrame {
     private ImageIcon LabelImage = new ImageIcon("src/main/resources/Image/Label1.png");
     private JPanel centerPanel;
 
+
+    /**
+     * Constructs a new ChangeTransactionStateWindow with the given transaction system and transaction menu window.
+     *
+     * @param transSystem the transaction system
+     * @param transactionMenuWindow the transaction menu window
+     * @throws IOException if there is an error reading the font file
+     * @throws FontFormatException if the font file format is not supported
+     */
     public ChangeTransactionStateWindow(TransactionSystem transSystem, TransactionMenuWindow transactionMenuWindow) throws IOException, FontFormatException {
         super("Change Transaction State");
         this.transSystem = transSystem;
@@ -167,6 +180,9 @@ public class ChangeTransactionStateWindow extends JFrame {
         setLocationRelativeTo(null); // Center the window on screen
         setVisible(true);
     }
+    /**
+     * Handles the change of state for a transaction.
+     */
 
     private void handleChangeState() {
         String transactionId = transactionIdField.getText();
@@ -180,7 +196,11 @@ public class ChangeTransactionStateWindow extends JFrame {
             JOptionPane.showMessageDialog(this, "Failed to change transaction state. Transaction ID not found or invalid state.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-
+    /**
+     * Creates a table for unchecked transactions.
+     *
+     * @return the created table
+     */
     private JTable createUncheckedTransTable() {
         List<Transaction> transactions = transSystem.getUncheckedTransHistory();
         if (transactions.isEmpty()) {
@@ -215,7 +235,14 @@ public class ChangeTransactionStateWindow extends JFrame {
 
         return table;
     }
-
+    /**
+     * Creates a colored button with the given text.
+     *
+     * @param text the text for the button
+     * @return the created button
+     * @throws IOException if there is an error reading the font file
+     * @throws FontFormatException if the font file format is not supported
+     */
     private JButton createColoredButton(String text) throws IOException, FontFormatException {
         JButton button = new JButton(text);
         button.setFont(new CreateNewFont("PermanentMarker", 37f).getFont()); // Decrease font size

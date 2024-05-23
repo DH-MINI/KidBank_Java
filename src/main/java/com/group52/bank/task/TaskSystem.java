@@ -10,7 +10,10 @@ import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * This class represents a Task System in the banking application.
+ * It manages tasks, their history, and unreceived tasks.
+ */
 public class TaskSystem {
 
     private final String taskHistoryCSV;
@@ -18,14 +21,21 @@ public class TaskSystem {
     private final List<Task> taskHistory;
 
     private List<Task> unreceivedTasks;
-
+    /**
+     * Constructs a new TaskSystem with the given taskHistoryCSV and childCSV.
+     *
+     * @param taskHistoryCSV the task history CSV
+     * @param childCSV the child CSV
+     */
     public TaskSystem(String taskHistoryCSV, String childCSV) {
         this.taskHistoryCSV = taskHistoryCSV;
         this.childCSV = childCSV;
         this.taskHistory = loadTaskHistory();
         this.unreceivedTasks = loadUnrecTaskHistory();
     }
-
+    /**
+     * Displays the task history.
+     */
 
     public void viewTaskHistory() {
         System.out.println("Task History:");
@@ -33,7 +43,13 @@ public class TaskSystem {
             System.out.println(task.getDetails());
         }
     }
-
+    /**
+     * Pushes a new task with the given description, reward, and deadline.
+     *
+     * @param description the description
+     * @param reward the reward
+     * @param deadline the deadline
+     */
     public void pushTask(String description, double reward, LocalDate deadline) {
         // Generate task ID (you may implement this based on your requirements)
         String taskId = "TASK_" + System.currentTimeMillis();
@@ -48,7 +64,14 @@ public class TaskSystem {
         unrecTaskHistoryUpdate();
     }
 
-
+    /**
+     * Changes the state of the task with the given taskId and newState.
+     *
+     * @param taskId the task ID
+     * @param newState the new state
+     * @param user the user
+     * @return true if the state was changed successfully, false otherwise
+     */
     public boolean changeTaskState(String taskId, String newState, User user) {
         int count = 0;
         for (Task task : taskHistory) {
@@ -104,7 +127,13 @@ public class TaskSystem {
             System.err.println("Error writing updated child balance to CSV: " + e.getMessage());
         }
     }
-
+    /**
+     * Receives the task with the given taskId and childUsername.
+     *
+     * @param taskId the task ID
+     * @param childUsername the child username
+     * @return true if the task was received successfully, false otherwise
+     */
     /* Unreceived tasks can  */
     public boolean receiveTask(String taskId, String childUsername) {
         int count = 0;
@@ -123,7 +152,9 @@ public class TaskSystem {
             return false;
         }
     }
-
+    /**
+     * Saves the task history.
+     */
     private List<Task> loadTaskHistory() {
         List<Task> history = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(taskHistoryCSV))) {
@@ -143,6 +174,7 @@ public class TaskSystem {
         }
         return history;
     }
+
 
     private List<Task> loadUnrecTaskHistory(){
         List<Task> unreceivedTasks = new ArrayList<>();
@@ -192,10 +224,18 @@ public class TaskSystem {
 
     /* Each time taskHistory updates, this method should be called. */
     public void unrecTaskHistoryUpdate() { unreceivedTasks = loadUnrecTaskHistory(); }
-
+    /**
+     * Returns the task history.
+     *
+     * @return the task history
+     */
     public List<Task> getTaskHistory() {
         return taskHistory;
     }
-
+    /**
+     * Returns the unreceived tasks.
+     *
+     * @return the unreceived tasks
+     */
     public List<Task> getUnreceivedTasks() { return unreceivedTasks; }
 }

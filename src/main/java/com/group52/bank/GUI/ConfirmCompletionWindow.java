@@ -16,7 +16,9 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.io.IOException;
 import java.util.List;
-
+/**
+ * This class represents the confirm completion window in the banking application.
+ */
 public class ConfirmCompletionWindow extends JFrame {
 
     private TaskSystem taskSystem;
@@ -36,7 +38,15 @@ public class ConfirmCompletionWindow extends JFrame {
 
     private ImageIcon backgroundImage = new ImageIcon("src/main/resources/Image/ChildMenuBack.png");
     private ImageIcon LabelImage = new ImageIcon("src/main/resources/Image/Label1.png");
-
+    /**
+     * Constructs a new ConfirmCompletionWindow with the given parameters.
+     *
+     * @param taskSystem the task system
+     * @param childTaskMenuWindow the child task menu window
+     * @param child the child user
+     * @throws IOException if there is an error reading the font file
+     * @throws FontFormatException if the font file format is not supported
+     */
     public ConfirmCompletionWindow(TaskSystem taskSystem, ChildTaskMenuWindow childTaskMenuWindow, Child child) throws IOException, FontFormatException {
         super("Confirm Task Completion");
         this.taskSystem = taskSystem;
@@ -143,7 +153,9 @@ public class ConfirmCompletionWindow extends JFrame {
         setLocationRelativeTo(null); // Center the window on screen
         setVisible(true);
     }
-
+    /**
+     * Handles the confirm completion action.
+     */
     private void handleConfirmCompletion() {
         String taskId = taskIdField.getText();
         if (taskSystem.changeTaskState(taskId, "ChildComplete", child)) {
@@ -154,7 +166,11 @@ public class ConfirmCompletionWindow extends JFrame {
             JOptionPane.showMessageDialog(this, "Failed to change task state. Task ID not found.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-
+    /**
+     * Returns a table of the child's tasks.
+     *
+     * @return a table of the child's tasks
+     */
     private JTable getMyTask(){
         List<Task> myTask = taskSystem.getChildsTask(child);
         if (myTask.isEmpty()) {
@@ -188,7 +204,14 @@ public class ConfirmCompletionWindow extends JFrame {
 
         return table;
     }
-
+    /**
+     * Creates a colored button with the given text.
+     *
+     * @param text the text for the button
+     * @return the created button
+     * @throws IOException if there is an error reading the font file
+     * @throws FontFormatException if the font file format is not supported
+     */
     private JButton createColoredButton(String text) throws IOException, FontFormatException {
         JButton button = new JButton(text);
         button.setFont(new CreateNewFont("PermanentMarker", 37f).getFont()); // Decrease font size

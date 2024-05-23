@@ -12,7 +12,9 @@ import javax.swing.table.TableModel;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * This class represents the parent menu window in the banking application.
+ */
 public class ParentMenuWindow extends JFrame {
     private ChildrensBankingApp app;
     private Parent parent;
@@ -27,7 +29,14 @@ public class ParentMenuWindow extends JFrame {
     private JButton setProfitButton;
     private JButton logoutButton;
     private JTable childTable;
-
+    /**
+     * Constructs a new ParentMenuWindow with the given banking application, parent, transaction system, and task system.
+     *
+     * @param app the banking application
+     * @param parent the parent user
+     * @param transSystem the transaction system
+     * @param taskSystem the task system
+     */
     public ParentMenuWindow(ChildrensBankingApp app, Parent parent, TransactionSystem transSystem, TaskSystem taskSystem) {
         super("Parent Menu - Welcome, " + parent.getUsername());
         this.app = app;
@@ -93,7 +102,9 @@ public class ParentMenuWindow extends JFrame {
         setLocationRelativeTo(null);
         setVisible(true);
     }
-
+    /**
+     * Sets up the event handlers for the buttons.
+     */
     private void setupEventHandlers() {
         viewChildrenButton.addActionListener(e -> handleViewChildren());
         createChildAccountButton.addActionListener(e -> handleCreateChildAccount());
@@ -102,7 +113,12 @@ public class ParentMenuWindow extends JFrame {
         setProfitButton.addActionListener(e -> handleSetProfit());
         logoutButton.addActionListener(e -> handleLogout());
     }
-
+    /**
+     * Creates a colored button with the given text.
+     *
+     * @param text the text for the button
+     * @return the created button
+     */
     private JButton createColoredButton(String text) {
         JButton button = new JButton(text);
         button.setFont(new Font("Arial", Font.PLAIN, 24)); // Decrease font size
@@ -114,7 +130,9 @@ public class ParentMenuWindow extends JFrame {
         button.setMargin(new Insets(10, 20, 10, 20)); // Adjust margin to make the button look less "thick"
         return button;
     }
-
+    /**
+     * Handles the view children action.
+     */
     private void handleViewChildren() {
         List<Child> children = new ArrayList<>(app.authSystem.loadChildrenData());
         if (children.isEmpty()) {
@@ -139,22 +157,30 @@ public class ParentMenuWindow extends JFrame {
             JOptionPane.showMessageDialog(this, scrollPane, "Children List", JOptionPane.PLAIN_MESSAGE);
         }
     }
-
+    /**
+     * Handles the create child account action.
+     */
     private void handleCreateChildAccount() {
         // Open a separate window for child registration
         new CreateChildAccountWindow(app.authSystem, this).setVisible(true);
     }
-
+    /**
+     * Handles the transaction management action.
+     */
     private void handleTransactionManagement() {
         // Open a separate window for transaction management sub-menu
         new TransactionMenuWindow(app.transSystem, this).setVisible(true);
     }
-
+    /**
+     * Handles the task management sub-menu action.
+     */
     private void handleTaskManagementSubMenu() {
         // Open a separate window for task management sub-menu
         new TaskMenuWindow(app.taskSystem, this, parent).setVisible(true);
     }
-
+    /**
+     * Handles the logout action.
+     */
     private void handleLogout() {
         int confirmation = JOptionPane.showConfirmDialog(this, "Are you sure you want to logout?", "Logout Confirmation", JOptionPane.YES_NO_OPTION);
         if (confirmation == JOptionPane.YES_OPTION) {
@@ -163,7 +189,9 @@ public class ParentMenuWindow extends JFrame {
             app.loginWindow.setVisible(true); // Show login window again
         }
     }
-
+    /**
+     * Handles the set profit action.
+     */
     private void handleSetProfit() {
         new SetProfitRateWindow(transSystem);
     }

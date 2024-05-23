@@ -10,7 +10,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Objects;
-
+/**
+ * This class represents the main application for the Children's Banking App.
+ */
 public class ChildrensBankingApp extends JFrame {
 
     private static final String PARENT_CSV = "src/main/resources/datacsv/parents.csv";
@@ -23,7 +25,9 @@ public class ChildrensBankingApp extends JFrame {
     TransactionSystem transSystem;
     TaskSystem taskSystem;
     LoginWindow loginWindow;
-
+    /**
+     * Constructs a new ChildrensBankingApp.
+     */
     public ChildrensBankingApp() {
         super("Children's Banking App");
 
@@ -76,7 +80,11 @@ public class ChildrensBankingApp extends JFrame {
         setLocationRelativeTo(null); // Center the frame
         setVisible(true);
     }
-
+    /**
+     * The main method for the Children's Banking App.
+     *
+     * @param args the command line arguments
+     */
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             try {

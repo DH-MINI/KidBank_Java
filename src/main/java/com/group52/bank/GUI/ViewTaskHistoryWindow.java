@@ -6,7 +6,9 @@ import com.group52.bank.task.TaskSystem;
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
-
+/**
+ * This class represents the window for viewing the task history in the banking application.
+ */
 public class ViewTaskHistoryWindow extends JFrame {
 
     private TaskSystem taskSystem;
@@ -14,7 +16,11 @@ public class ViewTaskHistoryWindow extends JFrame {
     private JLabel titleLabel;
     private JTable historyTable;
     private JButton closeButton;
-
+    /**
+     * Constructs a new ViewTaskHistoryWindow with the given task system.
+     *
+     * @param taskSystem the task system
+     */
     public ViewTaskHistoryWindow(TaskSystem taskSystem) {
         super("Task History");
         this.taskSystem = taskSystem;
@@ -52,7 +58,9 @@ public class ViewTaskHistoryWindow extends JFrame {
         // Change window background color
         getContentPane().setBackground(Color.LIGHT_GRAY);
     }
-
+    /**
+     * Populates the task history table with data.
+     */
     private void populateHistoryTable() {
         List<Task> taskHistory = taskSystem.getTaskHistory();
 

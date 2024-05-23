@@ -12,7 +12,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-
+/**
+ * This class represents the task management submenu window in the banking application.
+ */
 public class TaskMenuWindow extends JFrame {
 
         private TaskSystem taskSystem;
@@ -24,7 +26,13 @@ public class TaskMenuWindow extends JFrame {
         private JButton manageTasksButton;
         private JButton viewTaskHistoryButton;
         private JButton backButton;
-
+    /**
+     * Constructs a new TaskMenuWindow with the given task system, parent menu window, and parent.
+     *
+     * @param taskSystem the task system
+     * @param parentMenuWindow the parent menu window
+     * @param parent the parent user
+     */
         public TaskMenuWindow(TaskSystem taskSystem, ParentMenuWindow parentMenuWindow, Parent parent) {
             super("Task Management Submenu");
             this.taskSystem = taskSystem;
@@ -122,21 +130,33 @@ public class TaskMenuWindow extends JFrame {
 //            setLocationRelativeTo(null); // Center the window on screen
 //            setVisible(true);
         }
-
+    /**
+     * Handles the action of publishing a task.
+     */
         private void handlePublishTask() {
             // Open a separate window for task creation
             new PublishTaskWindow(taskSystem, this).setVisible(true);
         }
-
+    /**
+     * Handles the action of changing a task's state.
+     */
         private void handleChangeTaskState() throws IOException, FontFormatException {
             // Open a separate window for changing task state
             new TaskChangeStateWindow(taskSystem, this, parent).setVisible(true);
         }
+    /**
+     * Handles the action of viewing a task's history.
+     */
         private void handleViewTaskHistory() {
             // Open a separate window for viewing task history
             new ViewTaskHistoryWindow(taskSystem).setVisible(true);
         }
-
+    /**
+     * Creates a colored button with the given text.
+     *
+     * @param text the text to display on the button
+     * @return the created button
+     */
         private JButton createColoredButton(String text) {
             JButton button = new JButton(text);
             button.setFont(new Font("Arial", Font.PLAIN, 24)); // Decrease font size

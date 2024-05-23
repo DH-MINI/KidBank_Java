@@ -8,7 +8,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-
+/**
+ * This class represents the saving goal window in the banking application.
+ */
 public class SavingGoalWindow extends JFrame {
 
     private Child child;
@@ -19,7 +21,12 @@ public class SavingGoalWindow extends JFrame {
     private JProgressBar progressBar;
     private JButton setSavingGoalButton;
     private JButton exitButton;
-
+    /**
+     * Constructs a new SavingGoalWindow with the given child and transaction system.
+     *
+     * @param child the child user
+     * @param transSystem the transaction system
+     */
     public SavingGoalWindow(Child child, TransactionSystem transSystem) {
         super("Saving Goal Management");
         this.child = child;

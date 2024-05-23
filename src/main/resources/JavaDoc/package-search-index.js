@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"com.group52.bank.authentication"},{"l":"com.group52.bank.GUI"},{"l":"com.group52.bank.GUI.setting"},{"l":"com.group52.bank.model"},{"l":"com.group52.bank.run_system"},{"l":"com.group52.bank.task"},{"l":"com.group52.bank.transaction"}];updateSearchResults();
