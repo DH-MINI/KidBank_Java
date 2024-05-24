@@ -7,7 +7,7 @@ public class ChildTest {
 
     @Test
     public void testGetBalance() {
-        Child child = new Child("username", "password", 100.0);
+        Child child = new Child("username", "password", 100.0, 0.0);
         assertEquals(100.0, child.getBalance());
     }
 
@@ -20,7 +20,7 @@ public class ChildTest {
 
     @Test
     public void testConstructorWithBalance() {
-        Child child = new Child("username", "password", 200.0);
+        Child child = new Child("username", "password", 200.0, 0.0);
         assertEquals("username", child.getUsername());
         assertNotEquals("password", child.getPassword());
         assertEquals(200.0, child.getBalance());
