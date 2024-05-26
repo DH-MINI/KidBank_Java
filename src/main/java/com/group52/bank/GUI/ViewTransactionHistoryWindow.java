@@ -1,5 +1,6 @@
 package com.group52.bank.GUI;
 
+import com.group52.bank.model.Child;
 import com.group52.bank.model.TermDeposit;
 import com.group52.bank.model.Transaction;
 import com.group52.bank.transaction.TransactionSystem;
@@ -20,14 +21,16 @@ public class ViewTransactionHistoryWindow extends JFrame {
     private JTable transactionTable;
     private JScrollPane scrollPane;
     private JButton closeButton;
+    private Child child;
     /**
      * Constructs a new ViewTransactionHistoryWindow with the given transaction system.
      *
      * @param transSystem the transaction system
      */
-    public ViewTransactionHistoryWindow(TransactionSystem transSystem) {
+    public ViewTransactionHistoryWindow(TransactionSystem transSystem, Child child) {
         super("Transaction History");
         this.transSystem = transSystem;
+        this.child = child;
 
         // Set layout manager for the frame
         setLayout(new BorderLayout());
@@ -64,7 +67,7 @@ public class ViewTransactionHistoryWindow extends JFrame {
      * @return the created table of transactions
      */
     private JTable createTransactionTable() {
-        List<Transaction> transactions = transSystem.getTransactionHistory();
+        List<Transaction> transactions = transSystem.getMyTransactionHistory(child);
         if (transactions.isEmpty()) {
             return new JTable(new DefaultTableModel(new Object[][]{{"No transactions found."}}, new String[]{"Message"}));
         }

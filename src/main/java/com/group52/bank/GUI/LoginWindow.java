@@ -21,6 +21,8 @@ public class LoginWindow extends JFrame {
     private JButton loginButton;
     private JButton registerButton;
     public JPanel jp01;
+    private ImageIcon backgroundImage = new ImageIcon("src/main/resources/Image/ChildMenuBack.png");
+    private ImageIcon LabelImage = new ImageIcon("src/main/resources/Image/Label1.png");
     /**
      * Constructs a new LoginWindow with the given banking application.
      *
@@ -29,6 +31,9 @@ public class LoginWindow extends JFrame {
     public LoginWindow(ChildrensBankingApp app) {
         super("Login");
         this.app = app;
+
+        JLabel backgroundLabel = new JLabel(backgroundImage);
+        setContentPane(backgroundLabel);
 
         // Create Swing components and arrange them using a layout manager
         usernameLabel = new JLabel("Username:",JLabel.CENTER);
@@ -87,14 +92,15 @@ public class LoginWindow extends JFrame {
 
         this.setLayout(new GridBagLayout());
         this.add(labImageBJ,new GridBagConstraints());
+        jp05.setOpaque(false);
         this.add(jp05);
         this.add(panel,new GridBagConstraints());
 
         // Set frame properties
 
-        this.setSize(800, 600);
+        this.setSize(600, 400);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setLocationRelativeTo(null); // 将窗口置于屏幕中央
+        this.setLocationRelativeTo(null);
         this.setVisible(true);
     }
     /**
