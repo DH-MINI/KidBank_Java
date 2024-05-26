@@ -33,6 +33,10 @@ public class CreateChildAccountWindow extends JFrame {
         this.authSystem = authSystem;
         this.parentMenuWindow = parentMenuWindow;
 
+        ImageIcon backgroundImage = new ImageIcon("src/main/resources/Image/ChildMenuBack.png");
+        JLabel backgroundLabel = new JLabel(backgroundImage);
+        setContentPane(backgroundLabel);
+
         usernameLabel = new JLabel("Username:",JLabel.CENTER);
         usernameField = new JTextField(15);
         passwordLabel = new JLabel("Password:",JLabel.CENTER);
@@ -58,6 +62,7 @@ public class CreateChildAccountWindow extends JFrame {
         jp05.setBackground(Color.PINK);
         jp06.setBackground(Color.PINK);
         jp07.setBackground(Color.gray);
+        jp07.setOpaque(false);
         jp08.setBackground(Color.cyan);
 
         JPanel panel = new JPanel(new GridLayout(7, 2));
@@ -89,7 +94,8 @@ public class CreateChildAccountWindow extends JFrame {
 
         // Set frame properties
 
-        this.setSize(800, 600);
+        this.setSize(600, 400);
+        this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setVisible(true);
     }

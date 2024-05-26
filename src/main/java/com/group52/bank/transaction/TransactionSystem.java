@@ -1,5 +1,6 @@
 package com.group52.bank.transaction;
 
+import com.group52.bank.model.Child;
 import com.group52.bank.model.TermDeposit;
 import com.group52.bank.model.Transaction;
 
@@ -299,6 +300,25 @@ public class TransactionSystem {
      */
     public List<Transaction> getTransactionHistory() {
         return transactionHistory;
+    }
+    public List<Transaction> getMyTransactionHistory(Child child){
+        List<Transaction> myTransaction = new ArrayList<>();
+        if(child != null) {
+            for (Transaction transaction : transactionHistory) {
+                if (child.getUsername().equals(transaction.getSource())
+                        || child.getUsername().equals(transaction.getDestination())) {
+                    myTransaction.add(transaction);
+                }
+            }
+        }
+        else {
+            return getTransactionHistory();
+        }
+
+        if (myTransaction.isEmpty()) {
+            System.out.println("No Child's Transactions Found.");
+        }
+        return myTransaction;
     }
     /**
      * Returns the unchecked transaction history.

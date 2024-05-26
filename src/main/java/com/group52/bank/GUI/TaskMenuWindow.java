@@ -160,7 +160,7 @@ public class TaskMenuWindow extends JFrame {
         private JButton createColoredButton(String text) {
             JButton button = new JButton(text);
             button.setFont(new Font("Arial", Font.PLAIN, 24)); // Decrease font size
-            button.setBackground(Color.ORANGE);
+            button.setBackground(new Color(173, 216, 230));
             button.setOpaque(true);
             button.setBorderPainted(false);
             button.setFocusPainted(false);

@@ -70,9 +70,9 @@ public class TaskChangeStateWindow extends JFrame {
         JPanel titleLabelPanel = new JPanel();
         JLabel textLabel = new JLabel();
         textLabel.setLayout(new BorderLayout());
-        textLabel.setIcon(new SetImageSize(LabelImage, 0.3).getScaledImage());
-        titleLabel = new JLabel("  Confirm Children's Tasks!");
-        titleLabel.setFont(new CreateNewFont("PoetsenOne", 38f).getFont());
+        textLabel.setIcon(new SetImageSize(LabelImage, 0.25).getScaledImage());
+        titleLabel = new JLabel("    Confirm Children's Tasks!");
+        titleLabel.setFont(new CreateNewFont("PoetsenOne", 30f).getFont());
         textLabel.add(titleLabel, BorderLayout.CENTER);
         titleLabelPanel.setLayout(new GridBagLayout());
         GridBagConstraints LabelConstraints = new GridBagConstraints();
@@ -86,7 +86,7 @@ public class TaskChangeStateWindow extends JFrame {
         textPanel.setOpaque(false);
         taskIdField = new JTextField();
         taskIdField.setPreferredSize(new Dimension(600,100));
-        taskIdField.setFont(new CreateNewFont("Caveat", 35f).getFont());
+        taskIdField.setFont(new CreateNewFont("Caveat", 30f).getFont());
         taskIdField.setToolTipText("Enter  task  ID  and  click  'Confirm'");
         taskIdField.setText("Enter  task  ID  and  click  'Confirm'");
         taskIdField.setForeground(new Color(204, 204, 204));
@@ -114,16 +114,16 @@ public class TaskChangeStateWindow extends JFrame {
 //        constraints.weighty = 0.0;
 //        constraints.fill = GridBagConstraints.NONE;
 //        constraints.anchor = GridBagConstraints.CENTER;
-        constraints.insets = new Insets(50, 200, 50, 50);
+        constraints.insets = new Insets(0, 10, 0, 0);
         textPanel.add(taskIdField, constraints);
         centerPanel.add(textPanel);
 
         // Set StateLabel
         JLabel stateLabel = new JLabel();
         stateLabel.setLayout(new BorderLayout());
-        stateLabel.setIcon(new SetImageSize(LabelImage, 0.3).getScaledImage());
-        newStateLabel = new JLabel("       Select  the  New  State");
-        newStateLabel.setFont(new CreateNewFont("PoetsenOne", 38f).getFont());
+        stateLabel.setIcon(new SetImageSize(LabelImage, 0.25).getScaledImage());
+        newStateLabel = new JLabel("        Select  the  New  State");
+        newStateLabel.setFont(new CreateNewFont("PoetsenOne", 30f).getFont());
         stateLabel.add(newStateLabel, BorderLayout.CENTER);
         JPanel stateLabelPanel = new JPanel();
         stateLabelPanel.setLayout(new GridBagLayout());
@@ -139,7 +139,7 @@ public class TaskChangeStateWindow extends JFrame {
         GridBagConstraints stateBoxConstraints = new GridBagConstraints();
         stateBoxConstraints.insets = new Insets(50, 200, 50, 50);
         newStateComboBox = new JComboBox<>(new String[]{"Complete", "Delete"});
-        newStateComboBox.setFont(new CreateNewFont("PoetsenOne", 38f).getFont());
+        newStateComboBox.setFont(new CreateNewFont("PoetsenOne", 30f).getFont());
         newStateComboBox.setPreferredSize(new Dimension(600, 100));
         stateComboPanel.add(newStateComboBox, stateBoxConstraints);
         stateComboPanel.setOpaque(false);
@@ -174,8 +174,8 @@ public class TaskChangeStateWindow extends JFrame {
 
         // Set frame properties
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        pack();
-        setLocationRelativeTo(null); // Center the window on screen
+        setSize(1290, 800);
+        setLocationRelativeTo(null);
         setVisible(true);
     }
     /**
@@ -225,11 +225,11 @@ public class TaskChangeStateWindow extends JFrame {
         // Optional: Adjust table column widths
         table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         table.getColumnModel().getColumn(0).setPreferredWidth(230);
-        table.getColumnModel().getColumn(1).setPreferredWidth(600);
+        table.getColumnModel().getColumn(1).setPreferredWidth(500);
         table.getColumnModel().getColumn(2).setPreferredWidth(200);
-        table.getColumnModel().getColumn(3).setPreferredWidth(120);
-        table.getColumnModel().getColumn(4).setPreferredWidth(200);
-        table.getColumnModel().getColumn(5).setPreferredWidth(200);
+        table.getColumnModel().getColumn(3).setPreferredWidth(70);
+        table.getColumnModel().getColumn(4).setPreferredWidth(100);
+        table.getColumnModel().getColumn(5).setPreferredWidth(150);
 
         return table;
     }
