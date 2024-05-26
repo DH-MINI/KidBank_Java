@@ -95,15 +95,19 @@ public class SavingGoalWindow extends JFrame {
 
                     System.out.println("New Saving Goal is " + newSavingGoal);
 
-                    if (child.setSavingGoal(newSavingGoal)) {
+                    int flag = child.setSavingGoal(newSavingGoal);
+                    if (flag == 0) {
                         transSystem.updateChildSavingGoal(child.getUsername(), newSavingGoal);
                         savingGoalLabel.setText("Saving Goal: " + child.getSavingGoal());
                         progressBar.setValue((int) child.getBalance());
                         progressBar.setMaximum((int) child.getSavingGoal());
                         progressBar.setStringPainted(true);
                     }
-                    else{
+                    else if(flag == 1){
                         JOptionPane.showMessageDialog(null, "Invalid input! Haven't reach last saving goal.", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                    else if(flag == 2){
+                        JOptionPane.showMessageDialog(null, "Invalid input! You have reached that goal.", "Error", JOptionPane.ERROR_MESSAGE);
                     }
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(null, "Invalid input! Please enter a valid number.", "Error", JOptionPane.ERROR_MESSAGE);

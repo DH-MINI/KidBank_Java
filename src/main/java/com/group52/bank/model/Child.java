@@ -91,14 +91,18 @@ public class Child extends User {
      * Sets the saving goal of the Child.
      *
      * @param savingGoal the new saving goal
-     * @return true if the saving goal is set successfully, false otherwise
+     * @return 0 if the saving goal is set successfully, 1 or 2 otherwise
      */
-    public boolean setSavingGoal(double savingGoal) {
+    public int setSavingGoal(double savingGoal) {
         if ( this.getBalance() >= this.getSavingGoal() ) {
-            this.savingGoal = savingGoal;
-            return true;
+            if (savingGoal < this.getBalance())
+                return 2;
+            else {
+                this.savingGoal = savingGoal;
+                return 0;
+            }
         }
         else
-            return false;
+            return 1;
     }
 }
