@@ -68,9 +68,9 @@ public class ConfirmCompletionWindow extends JFrame {
         // Set the TitleLabel
         titleLabel = new JLabel();
         titleLabel.setLayout(new BorderLayout());
-        titleLabel.setIcon(new SetImageSize(LabelImage, 0.35).getScaledImage());
+        titleLabel.setIcon(new SetImageSize(LabelImage, 0.25).getScaledImage());
         JLabel titleTextLabel = new JLabel("  Confirm Your Task Completion!");
-        titleTextLabel.setFont(new CreateNewFont("PoetsenOne", 38f).getFont());
+        titleTextLabel.setFont(new CreateNewFont("PoetsenOne", 30f).getFont());
         titleLabel.add(titleTextLabel, BorderLayout.CENTER);
         JPanel titleLabelPanel = new JPanel();
         titleLabelPanel.setLayout(new GridBagLayout());
@@ -85,7 +85,7 @@ public class ConfirmCompletionWindow extends JFrame {
         textPanel.setOpaque(false);
         taskIdField = new JTextField();
         taskIdField.setPreferredSize(new Dimension(600,100));
-        taskIdField.setFont(new CreateNewFont("Caveat", 35f).getFont());
+        taskIdField.setFont(new CreateNewFont("Caveat", 30f).getFont());
         taskIdField.setToolTipText("Enter  task  ID  and  click  'Confirm'");
         taskIdField.setText("Enter  task  ID  and  click  'Confirm'");
         taskIdField.setForeground(new Color(204, 204, 204));
@@ -115,7 +115,7 @@ public class ConfirmCompletionWindow extends JFrame {
 //        constraints.weighty = 0.0;
 //        constraints.fill = GridBagConstraints.NONE;
 //        constraints.anchor = GridBagConstraints.CENTER;
-        constraints.insets = new Insets(50, 200, 50, 50);
+        constraints.insets = new Insets(0, 10, 0, 0);
         textPanel.add(taskIdField, constraints);
 
 
@@ -149,7 +149,7 @@ public class ConfirmCompletionWindow extends JFrame {
 
         // Set frame properties
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        pack();
+        setSize(1290, 800);
         setLocationRelativeTo(null); // Center the window on screen
         setVisible(true);
     }
@@ -196,11 +196,11 @@ public class ConfirmCompletionWindow extends JFrame {
         // Optional: Adjust table column widths
         table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         table.getColumnModel().getColumn(0).setPreferredWidth(230);
-        table.getColumnModel().getColumn(1).setPreferredWidth(600);
+        table.getColumnModel().getColumn(1).setPreferredWidth(500);
         table.getColumnModel().getColumn(2).setPreferredWidth(200);
-        table.getColumnModel().getColumn(3).setPreferredWidth(120);
-        table.getColumnModel().getColumn(4).setPreferredWidth(200);
-        table.getColumnModel().getColumn(5).setPreferredWidth(200);
+        table.getColumnModel().getColumn(3).setPreferredWidth(70);
+        table.getColumnModel().getColumn(4).setPreferredWidth(100);
+        table.getColumnModel().getColumn(5).setPreferredWidth(150);
 
         return table;
     }

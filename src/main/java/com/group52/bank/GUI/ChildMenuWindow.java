@@ -8,6 +8,8 @@ import com.group52.bank.authentication.AuthenticationSystem;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
+
 /**
  * This class represents the child menu window in the banking application.
  */
@@ -122,7 +124,15 @@ public class ChildMenuWindow extends JFrame {
      */
     private void setupEventHandlers() {
 //        viewBalanceButton.addActionListener(e -> handleViewBalance());
-        savingGoalButton.addActionListener(e -> handleSavingGoalWindow());
+        savingGoalButton.addActionListener(e -> {
+            try {
+                handleSavingGoalWindow();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            } catch (FontFormatException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
         viewTransactionHistoryButton.addActionListener(e -> handleViewTransactionHistory());
         depositWithdrawButton.addActionListener(e -> handleDepositWithdraw());
         taskManagementButton.addActionListener(e -> handleChildTaskMenuWindow());
@@ -157,7 +167,7 @@ public class ChildMenuWindow extends JFrame {
      * Handles the view transaction history action.
      */
     private void handleViewTransactionHistory() {
-        new ViewTransactionHistoryWindow(transSystem).setVisible(true);
+        new ViewTransactionHistoryWindow(transSystem, child).setVisible(true);
     }
     /**
      * Handles the deposit and withdraw action.
@@ -185,7 +195,7 @@ public class ChildMenuWindow extends JFrame {
     /**
      * Handles the saving goal window action.
      */
-    private void handleSavingGoalWindow(){
+    private void handleSavingGoalWindow() throws IOException, FontFormatException {
         new SavingGoalWindow(child, transSystem).setVisible(true);
 
     }

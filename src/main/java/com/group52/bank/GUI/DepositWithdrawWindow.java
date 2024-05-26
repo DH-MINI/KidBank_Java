@@ -176,8 +176,8 @@ public class DepositWithdrawWindow extends JFrame {
         }
 
         String transactionId = "TRANS_" + System.currentTimeMillis();
-        String transactionSource = "Bank";
-        String transactionDestination = child.getUsername();
+        String transactionSource = child.getUsername();
+        String transactionDestination = "Bank";
         String transactionState = "Unchecked";
 
         if (depositRadioButton.isSelected()) {

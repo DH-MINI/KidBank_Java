@@ -97,10 +97,26 @@ public class AuthenticationSystem {
      * @param username the username of the child
      * @return the child if they exist, null otherwise
      */
-    public Child findChildByUsername(String username) {
-        User user = users.get(username);
-        if (user instanceof Child) {
-            return (Child) user;
+    public Child findChildByUsername(String childname) {
+//        User user = users.get(username);
+//        if (user instanceof Child) {
+//            return (Child) user;
+//        }
+
+        try (BufferedReader br = new BufferedReader(new FileReader(childCSV))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] data = line.split(",");
+                String username = data[0];
+                String password = data[1];
+                double balance = data.length > 2 ? Double.parseDouble(data[2]) : 0.0;
+                double savingGoal = data.length > 2 ? Double.parseDouble(data[3]) : 0.0;
+                if (username.equals(childname)) {
+                    return new Child(username, password, balance, true, savingGoal);
+                }
+            }
+        } catch (IOException | NumberFormatException e) {
+            System.err.println("Error loading children data from CSV: " + e.getMessage());
         }
         return null;
     }

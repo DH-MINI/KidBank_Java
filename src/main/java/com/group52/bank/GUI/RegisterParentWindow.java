@@ -21,6 +21,9 @@ public class RegisterParentWindow extends JFrame {
     private JPasswordField passwordField;
     private JButton registerButton;
     private JButton cancelButton;
+
+    private static final String TASK_CSV = "src/main/resources/datacsv/taskHistory.csv";
+    private static final String profitRateCSV = "src/main/resources/datacsv/profitRate.csv";
     /**
      * Constructs a new RegisterParentWindow with the given authentication system.
      *
@@ -29,6 +32,10 @@ public class RegisterParentWindow extends JFrame {
     public RegisterParentWindow(AuthenticationSystem authSystem) {
         super("Parent Registration");
         this.authSystem = authSystem;
+
+        ImageIcon backgroundImage = new ImageIcon("src/main/resources/Image/ChildMenuBack.png");
+        JLabel backgroundLabel = new JLabel(backgroundImage);
+        setContentPane(backgroundLabel);
 
         // Create Swing components and arrange them using a layout manager
         titleLabel = new JLabel("Parent Registration:",JLabel.CENTER);
@@ -64,6 +71,7 @@ public class RegisterParentWindow extends JFrame {
 
         JPanel jp02 = new JPanel();
         jp02.setBackground(Color.DARK_GRAY);
+        jp02.setOpaque(false);
 
         JPanel jp03 = new JPanel((new GridLayout(7, 2)));
         jp03.setBackground(Color.cyan);
@@ -91,7 +99,8 @@ public class RegisterParentWindow extends JFrame {
         this.add(jp03,new GridBagConstraints());
 
         // Set frame properties
-        this.setSize(800, 600);
+        this.setSize(600, 400);
+        this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setVisible(true);
     }

@@ -28,6 +28,10 @@ public class ReceiveTaskWindow extends JFrame {
 
     private JTable unrecTasksTable;
     private JScrollPane scrollPane;
+
+    private static final String TASK_CSV = "src/main/resources/datacsv/taskHistory.csv";
+    private static final String profitRateCSV = "src/main/resources/datacsv/profitRate.csv";
+
     /**
      * Constructs a new ReceiveTaskWindow with the given task system, child task menu window, and child.
      *
@@ -40,6 +44,10 @@ public class ReceiveTaskWindow extends JFrame {
         this.taskSystem = taskSystem;
         this.childTaskMenuWindow = childTaskMenuWindow;
         this.child = child;
+
+        ImageIcon backgroundImage = new ImageIcon("src/main/resources/Image/ChildMenuBack.png");
+        JLabel backgroundLabel = new JLabel(backgroundImage);
+        setContentPane(backgroundLabel);
 
         // Create Swing components and arrange them using a layout manager
         taskListTitel = new JLabel("Unreceived Task List",JLabel.CENTER);
@@ -66,6 +74,7 @@ public class ReceiveTaskWindow extends JFrame {
         jp02.setBackground(Color.PINK);
 
         JPanel panel1 = new JPanel();
+        panel1.setOpaque(false);
         panel1.setLayout(new BorderLayout());
         panel1.setPreferredSize(new Dimension(400, 40));
         panel1.add(taskListTitel,BorderLayout.CENTER);
@@ -91,8 +100,10 @@ public class ReceiveTaskWindow extends JFrame {
         panel4.setPreferredSize(new Dimension(400, 180));
         panel4.setLayout(new GridBagLayout());
         panel4.add(panel3,new GridBagConstraints());
+        panel4.setOpaque(false);
 
         JPanel panel = new JPanel(new BorderLayout());
+        panel.setOpaque(false);
         panel.add(panel1,BorderLayout.NORTH);
         panel.add(panel2,BorderLayout.CENTER);
         panel.add(panel4,BorderLayout.SOUTH);
@@ -110,6 +121,7 @@ public class ReceiveTaskWindow extends JFrame {
         this.setSize(800, 600);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setVisible(true);
+        setLocationRelativeTo(null);
     }
     /**
      * Handles the receiving of a task.
@@ -139,7 +151,7 @@ public class ReceiveTaskWindow extends JFrame {
         String[][] taskData = new String[tasks.size()][];
         for (int i = 0; i < tasks.size(); i++) {
             Task task = tasks.get(i);
-            taskData[i] = new String[]{task.getTaskId(), task.getDetails(), task.getReceivedBy(), "" + task.getReward(), task.getDeadline().toString(), task.getState()};
+            taskData[i] = new String[]{task.getTaskId(), task.getDescription(), task.getReceivedBy(), "" + task.getReward(), task.getDeadline().toString(), task.getState()};
         }
 
         // Create column names for the table

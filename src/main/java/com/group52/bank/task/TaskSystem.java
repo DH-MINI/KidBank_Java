@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
+
 /**
  * This class represents a Task System in the banking application.
  * It manages tasks, their history, and unreceived tasks.
@@ -19,8 +20,8 @@ public class TaskSystem {
     private final String taskHistoryCSV;
     private final String childCSV;
     private final List<Task> taskHistory;
-
     private List<Task> unreceivedTasks;
+
     /**
      * Constructs a new TaskSystem with the given taskHistoryCSV and childCSV.
      *
@@ -33,16 +34,17 @@ public class TaskSystem {
         this.taskHistory = loadTaskHistory();
         this.unreceivedTasks = loadUnrecTaskHistory();
     }
+
     /**
      * Displays the task history.
      */
-
     public void viewTaskHistory() {
         System.out.println("Task History:");
         for (Task task : taskHistory) {
             System.out.println(task.getDetails());
         }
     }
+
     /**
      * Pushes a new task with the given description, reward, and deadline.
      *
@@ -106,10 +108,11 @@ public class TaskSystem {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] parts = line.split(",");
-                if(task.getReceivedBy().equals(parts[0])) {
+                if (task.getReceivedBy().equals(parts[0])) {
                     double currentBalance = Double.parseDouble(parts[2]);
+                    double savingGoal = parts.length > 3 ? Double.parseDouble(parts[3]) : 0.0;
                     currentBalance += task.getReward();
-                    lines.add(parts[0] + "," + parts[1] + "," + currentBalance);
+                    lines.add(parts[0] + "," + parts[1] + "," + currentBalance + "," + savingGoal);
                 } else {
                     lines.add(line);
                 }
@@ -127,6 +130,7 @@ public class TaskSystem {
             System.err.println("Error writing updated child balance to CSV: " + e.getMessage());
         }
     }
+
     /**
      * Receives the task with the given taskId and childUsername.
      *
@@ -134,7 +138,6 @@ public class TaskSystem {
      * @param childUsername the child username
      * @return true if the task was received successfully, false otherwise
      */
-    /* Unreceived tasks can  */
     public boolean receiveTask(String taskId, String childUsername) {
         int count = 0;
         for (Task task : taskHistory) {
@@ -152,8 +155,11 @@ public class TaskSystem {
             return false;
         }
     }
+
     /**
-     * Saves the task history.
+     * Loads the task history from the CSV file.
+     *
+     * @return the task history
      */
     private List<Task> loadTaskHistory() {
         List<Task> history = new ArrayList<>();
@@ -175,8 +181,7 @@ public class TaskSystem {
         return history;
     }
 
-
-    private List<Task> loadUnrecTaskHistory(){
+    private List<Task> loadUnrecTaskHistory() {
         List<Task> unreceivedTasks = new ArrayList<>();
         for (Task task : taskHistory) {
             if ("Unreceived".equals(task.getReceivedBy())) {
@@ -189,6 +194,9 @@ public class TaskSystem {
         return unreceivedTasks;
     }
 
+    /**
+     * Saves the task history.
+     */
     public void saveTaskHistory() {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(taskHistoryCSV))) {
             for (Task task : taskHistory) {
@@ -209,7 +217,13 @@ public class TaskSystem {
                 task.getReceivedBy());
     }
 
-    public List<Task> getChildsTask(Child child){
+    /**
+     * Returns the task history for a specific child.
+     *
+     * @param child the child
+     * @return the task history
+     */
+    public List<Task> getChildsTask(Child child) {
         List<Task> myTask = new ArrayList<>();
         for (Task task : taskHistory) {
             if (child.getUsername().equals(task.getReceivedBy())) {
@@ -222,8 +236,13 @@ public class TaskSystem {
         return myTask;
     }
 
-    /* Each time taskHistory updates, this method should be called. */
-    public void unrecTaskHistoryUpdate() { unreceivedTasks = loadUnrecTaskHistory(); }
+    /**
+     * Each time taskHistory updates, this method should be called.
+     */
+    public void unrecTaskHistoryUpdate() {
+        unreceivedTasks = loadUnrecTaskHistory();
+    }
+
     /**
      * Returns the task history.
      *
@@ -232,10 +251,13 @@ public class TaskSystem {
     public List<Task> getTaskHistory() {
         return taskHistory;
     }
+
     /**
      * Returns the unreceived tasks.
      *
      * @return the unreceived tasks
      */
-    public List<Task> getUnreceivedTasks() { return unreceivedTasks; }
+    public List<Task> getUnreceivedTasks() {
+        return unreceivedTasks;
+    }
 }

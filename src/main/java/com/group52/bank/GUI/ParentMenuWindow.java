@@ -135,6 +135,7 @@ public class ParentMenuWindow extends JFrame {
      */
     private void handleViewChildren() {
         List<Child> children = new ArrayList<>(app.authSystem.loadChildrenData());
+        UIManager.put("OptionPane.okButtonText", "Confirm");
         if (children.isEmpty()) {
             JOptionPane.showMessageDialog(this, "No children registered yet.", "Information", JOptionPane.INFORMATION_MESSAGE);
         } else {
