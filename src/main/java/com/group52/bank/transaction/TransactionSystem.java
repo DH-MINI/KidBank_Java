@@ -236,7 +236,7 @@ public class TransactionSystem {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] parts = line.split(",");
-                if (parts[0].equals(transaction.getDestination())) {
+                if (parts[0].equals(transaction.getDestination()) || parts[0].equals(transaction.getSource())) {
                     double currentBalance = Double.parseDouble(parts[2]);
                     double savingGoal = parts.length > 3 ? Double.parseDouble(parts[3]) : 0.0;
 
