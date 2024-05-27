@@ -69,8 +69,8 @@ public class ConfirmCompletionWindow extends JFrame {
         titleLabel = new JLabel();
         titleLabel.setLayout(new BorderLayout());
         titleLabel.setIcon(new SetImageSize(LabelImage, 0.25).getScaledImage());
-        JLabel titleTextLabel = new JLabel("  Confirm Your Task Completion!");
-        titleTextLabel.setFont(new CreateNewFont("PoetsenOne", 30f).getFont());
+        JLabel titleTextLabel = new JLabel(" Confirm Your Task Completion!");
+        titleTextLabel.setFont(new CreateNewFont("PoetsenOne", 28f).getFont());
         titleLabel.add(titleTextLabel, BorderLayout.CENTER);
         JPanel titleLabelPanel = new JPanel();
         titleLabelPanel.setLayout(new GridBagLayout());
