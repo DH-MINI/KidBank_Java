@@ -58,6 +58,6 @@ If you encounter any issues while setting up or running the application, please 
 
 If you wish to contribute to this project, please fork the repository and submit a pull request.
 
-## License
+---
 
-This project is licensed under the MIT License.
+[English](README.md) | [中文](README_ZH.md)
